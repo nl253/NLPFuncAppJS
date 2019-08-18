@@ -1,0 +1,7 @@
+{
+  "name": "getEnts",
+  "version": "1.0.0",
+  "dependencies": {
+    "compromise": "^11.14.2"
+  }
+}
