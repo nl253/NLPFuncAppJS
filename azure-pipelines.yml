@@ -34,17 +34,15 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        if [ -f extensions.csproj ]
-        then
-            dotnet build extensions.csproj --runtime ubuntu.16.04-x64 --output ./bin
-        fi
-      displayName: 'Build extensions'
-
-    - script: |
         npm install
         npm run build --if-present
         npm run test --if-present
       displayName: 'Prepare binaries'
+
+    - script: |
+        for dir in $(for i in $(find -type f -name pack
+age.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
+      displayName: 'Install npm packages for all functions'
       
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -65,7 +63,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
-    environment: 'develop'
+    environment: 'production'
     pool: 
       vmImage: $(vmImageName)
     strategy:
