@@ -40,11 +40,11 @@ stages:
       displayName: 'Prepare binaries'
 
 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          for dir in $(for i in $(find -type f -name package.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
+    #- task: Bash@3
+      #inputs:
+        #targetType: 'inline'
+        #script: |
+          #for dir in $(for i in $(find -type f -name package.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
