@@ -15,8 +15,8 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "compromise": "file:compromise",
-    "htmltotext": "file:HTMLToText",
-    "mdtohtml": "file:MDToHTML"
+    "compromise": "^11.14.2",
+    "marked": "^0.7.0",
+    "html-to-text": "^5.1.1"
   }
 }

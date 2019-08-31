@@ -21,12 +21,12 @@ variables:
 stages:
 - stage: Build
   displayName: Build stage
-  jobs:  
+  jobs:
   - job: Build
     displayName: Build
     pool:
       vmImage: $(vmImageName)
-      
+
     steps:
     - task: NodeTool@0
       inputs:
@@ -38,13 +38,6 @@ stages:
         npm run build --if-present
         npm run test --if-present
       displayName: 'Prepare binaries'
-
-
-    #- task: Bash@3
-      #inputs:
-        #targetType: 'inline'
-        #script: |
-          #for dir in $(for i in $(find -type f -name package.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -66,12 +59,12 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     environment: 'production'
-    pool: 
+    pool:
       vmImage: $(vmImageName)
     strategy:
       runOnce:
         deploy:
-          steps:            
+          steps:
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy: '
             inputs:
