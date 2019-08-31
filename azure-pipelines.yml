@@ -44,8 +44,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          for dir in $(for i in $(find -type f -name pack
-          age.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
+          for dir in $(for i in $(find -type f -name package.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
