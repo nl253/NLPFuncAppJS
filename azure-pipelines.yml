@@ -39,11 +39,14 @@ stages:
         npm run test --if-present
       displayName: 'Prepare binaries'
 
-    - script: |
-        for dir in \$(for i in \$(find -type f -name pack
-age.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname \$i ; done); do cd \$dir && npm i && cd ..; done
-      displayName: 'Install npm packages for all functions'
-      
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          for dir in $(for i in $(find -type f -name pack
+          age.json | grep -v node_modules --color=never | grep '\w+\/\w+' --color=never); do dirname $i ; done); do cd $dir && npm i && cd ..; done
+
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
