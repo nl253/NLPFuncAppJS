@@ -99,7 +99,7 @@ const bad = {
 
 /**
  * @param {{res: *, log: Function<...*, void>}} context
- * @param {{originalUrl: string, body: {action: ('tokenize'|'match'|'tokenizeAndStem'|'distance'|'natural'|'spellcheck'), text: string, text1: string, text2: string, metric: ('LevenshteinDistance'|'DamerauLevenshteinDistance'|'JaroWinklerDistance'|'DiceCoefficient')}}} req
+ * @param {{originalUrl: string, body: {action: ('tokenize'|'match'|'tokenizeAndStem'|'distance'|'natural'|'spellcheck'|'sentiment'), text: string, text1: string, text2: string, metric: ('LevenshteinDistance'|'DamerauLevenshteinDistance'|'JaroWinklerDistance'|'DiceCoefficient')}}} req
  * @return {Promise<void>}
  */
 module.exports = async function (context, req) {
