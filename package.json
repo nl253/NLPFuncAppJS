@@ -17,6 +17,7 @@
   "dependencies": {
     "compromise": "^11.14.2",
     "marked": "^0.7.0",
-    "html-to-text": "^5.1.1"
+    "html-to-text": "^5.1.1",
+    "natural": "latest"
   }
 }
