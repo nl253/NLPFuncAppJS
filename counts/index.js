@@ -9,7 +9,7 @@ function findAll(str, regex) {
   const results = [];
   let match;
   while ((match = regex.exec(str)) !== null) {
-    results.push(match);
+    results.push(match[0]);
   }
   return results;
 }
