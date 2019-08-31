@@ -1,5 +1,4 @@
-const { basename, join, resolve } = require('path');
-const fs = require('fs');
+const { basename } = require('path');
 const {
   DiceCoefficient,
   LevenshteinDistance,
@@ -16,10 +15,7 @@ const {
  * @return {string[]}
  */
 function spellcheck(word) {
-  /** @type {string} */
-  const corpus = fs.readFileSync(resolve(join(__dirname, '..', 'frequent.dict')), { encoding: 'utf-8' });
-  const words = corpus.split('\n');
-  const checker = new Spellcheck(words);
+  const checker = new Spellcheck(require('../dict'));
   return checker.isCorrect(word) ? [] : checker.getCorrections(word, 2);
 }
 
