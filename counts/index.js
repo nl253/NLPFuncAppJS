@@ -18,6 +18,7 @@ const ok = {
   status: 200,
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'private, immutable',
   },
 };
 
@@ -46,7 +47,7 @@ module.exports = async function (context, req) {
   context.log('[Node.js HTTP %s FuncApp] %s', basename(__dirname), req.originalUrl);
 
   if (req.body && req.body.text) {
-    ok.body = JSON.stringify(getCounts(req.body.text, req.body.regex ? new RegExp(req.body.regex, "g") : /\w+/g));
+    ok.body     = JSON.stringify(getCounts(req.body.text, req.body.regex ? new RegExp(req.body.regex, 'g') : /\w+/g));
     context.res = ok;
   } else {
     context.res = bad;

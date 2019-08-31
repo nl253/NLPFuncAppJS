@@ -1,18 +1,18 @@
 const { basename } = require('path');
 const {
-  TreebankWordTokenizer,
-  LancasterStemmer,
-  OrthographyTokenizer,
-  WordPunctTokenizer,
-  DiceCoefficient,
-  LevenshteinDistance,
-  DamerauLevenshteinDistance,
-  JaroWinklerDistance,
-  WordTokenizer,
-  SentimentAnalyzer,
-  PorterStemmer,
-  Spellcheck,
-} = require('natural');
+        TreebankWordTokenizer,
+        LancasterStemmer,
+        OrthographyTokenizer,
+        WordPunctTokenizer,
+        DiceCoefficient,
+        LevenshteinDistance,
+        DamerauLevenshteinDistance,
+        JaroWinklerDistance,
+        WordTokenizer,
+        SentimentAnalyzer,
+        PorterStemmer,
+        Spellcheck,
+      }            = require('natural');
 
 /**
  * @param {string} word
@@ -30,10 +30,14 @@ function spellcheck(word) {
  */
 function tokenize(txt, tokenizer = 'WordTokenizer') {
   switch (tokenizer) {
-    case 'OrthographyTokenizer': return new OrthographyTokenizer().tokenize(txt);
-    case 'WordTokenizer': return new WordTokenizer().tokenize(txt);
-    case 'WordPunctTokenizer': return new WordPunctTokenizer().tokenize(txt);
-    case 'TreebankWordTokenizer': return new TreebankWordTokenizer().tokenize(txt);
+    case 'OrthographyTokenizer':
+      return new OrthographyTokenizer().tokenize(txt);
+    case 'WordTokenizer':
+      return new WordTokenizer().tokenize(txt);
+    case 'WordPunctTokenizer':
+      return new WordPunctTokenizer().tokenize(txt);
+    case 'TreebankWordTokenizer':
+      return new TreebankWordTokenizer().tokenize(txt);
   }
 }
 
@@ -44,8 +48,10 @@ function tokenize(txt, tokenizer = 'WordTokenizer') {
  */
 function stem(word, stemmer = 'PorterStemmer') {
   switch (stemmer) {
-    case 'LancasterStemmer': return LancasterStemmer.stem(word);
-    case 'PorterStemmer': return PorterStemmer.stem(word);
+    case 'LancasterStemmer':
+      return LancasterStemmer.stem(word);
+    case 'PorterStemmer':
+      return PorterStemmer.stem(word);
   }
 }
 
@@ -54,7 +60,7 @@ function stem(word, stemmer = 'PorterStemmer') {
  * @return {number}
  */
 function sentiment(txt) {
-  return new SentimentAnalyzer("English", PorterStemmer, "afinn").getSentiment(tokenize(txt));
+  return new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt));
 }
 
 /**
@@ -78,26 +84,31 @@ function tokenizeAndStem(txt, tokenizer = 'WordTokenizer', stemmer = 'PorterStem
  */
 function distance(s1, s2, metric = 'LevenshteinDistance') {
   switch (metric) {
-    case 'LevenshteinDistance': return LevenshteinDistance(s1, s2);
-    case 'DamerauLevenshteinDistance': return DamerauLevenshteinDistance(s1, s2);
-    case 'JaroWinklerDistance': return JaroWinklerDistance(s1, s2);
-    case 'DiceCoefficient': return DiceCoefficient(s1, s2);
+    case 'LevenshteinDistance':
+      return LevenshteinDistance(s1, s2);
+    case 'DamerauLevenshteinDistance':
+      return DamerauLevenshteinDistance(s1, s2);
+    case 'JaroWinklerDistance':
+      return JaroWinklerDistance(s1, s2);
+    case 'DiceCoefficient':
+      return DiceCoefficient(s1, s2);
   }
 }
 
 /**
  * @param {string} s1
  * @param {string} s2
- * @return {string}
+ * @return {{substring: string, distance: number}}
  */
 function match(s1, s2) {
-  return LevenshteinDistance(s1, s2, {search: true});
+  return LevenshteinDistance(s1, s2, { search: true });
 }
 
 const ok = {
   status: 200,
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'private, immutable',
   },
 };
 
@@ -140,7 +151,10 @@ module.exports = async function (context, req) {
         break;
       }
       case 'tokenizeAndStem': {
-        ok.body = JSON.stringify(tokenizeAndStem(req.body.text,  req.body.tokenizer || 'WordTokenizer', req.body.stemmer || 'PorterStemmer'));
+        ok.body = JSON.stringify(tokenizeAndStem(req.body.text,
+                                                 req.body.tokenizer || 'WordTokenizer',
+                                                 req.body.stemmer || 'PorterStemmer',
+        ));
         break;
       }
       case 'spellcheck': {

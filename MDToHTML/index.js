@@ -5,6 +5,7 @@ const ok = {
   status: 200,
   headers: {
     'Content-Type': 'text/html',
+    'Cache-Control': 'private, immutable',
   },
 };
 
