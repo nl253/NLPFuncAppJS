@@ -1,29 +1,56 @@
-const { basename } = require('path');
-const nlp          = require('compromise');
+const nlp = require('compromise');
 
-const ok = {
-  status: 200,
-  headers: {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'private, immutable',
-  },
+const { fail, succeed, validateJSON, logStart } = require('../lib');
+
+const schema = {
+  $id: __dirname,
+  type: 'object',
+  required: ['text', 'type'],
+  properties: {
+    text: {
+      type: 'string',
+    },
+    type: {
+      enum: [
+        "abbreviations",
+        "acronyms",
+        "adverbs",
+        "atMentions",
+        "clauses",
+        "conjunctions",
+        "contractions",
+        "emails",
+        "hashTags",
+        "hyphenated",
+        "lists",
+        "money",
+        "nouns",
+        "numbers",
+        "organizations",
+        "parenthesis",
+        "people",
+        "phoneNumbers",
+        "places",
+        "possessives",
+        "prepositions",
+        "pronouns",
+        "quotations",
+        "terms",
+        "topics",
+        "urls",
+        "verbs",
+      ]
+    }
+  }
 };
 
-const bad = {
-  status: 400,
-  headers: {
-    'Content-Type': 'text/plain',
-  },
-  body: 'Please pass text in the request body',
-};
+module.exports = async (context, req) => {
+  logStart(context);
 
-module.exports = async function (context, req) {
-  context.log('[Node.js HTTP %s FuncApp] %s', basename(__dirname), req.originalUrl);
-
-  if (req.body && req.body.text && req.body.type) {
-    ok.body     = JSON.stringify(nlp(req.body.text)[req.body.type]().out('array'));
-    context.res = ok;
-  } else {
-    context.res = bad;
+  try {
+    await validateJSON(context, schema);
+    return succeed(context, nlp(req.body.text)[req.body.type]().out('array'));
+  } catch (e) {
+    return fail(context, e.message, e.code);
   }
 };

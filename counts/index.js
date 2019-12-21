@@ -1,55 +1,55 @@
-const { basename } = require('path');
+const { logStart, succeed, fail, validateJSON } = require('../lib');
+
+const schema = {
+  $id: __dirname,
+  type: 'object',
+  required: ['text'],
+  properties: {
+    flags: {
+      type: 'string',
+    },
+    text: {
+      type: 'string',
+    },
+    regex: {
+      type: 'string',
+    },
+  },
+};
 
 /**
  * @param {RegExp} regex
- * @param {String} str
- * @returns {Array<String>} results
+ * @param {string} str
+ * @returns {string[]} results
  */
-function findAll(str, regex) {
+const findAll = (str, regex) => {
   const results = [];
   let match;
   while ((match = regex.exec(str)) !== null) {
     results.push(match[0]);
   }
   return results;
-}
-
-const ok = {
-  status: 200,
-  headers: {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'private, immutable',
-  },
-};
-
-const bad = {
-  status: 400,
-  headers: {
-    'Content-Type': 'text/plain',
-  },
-  body: 'Please pass text in the request body',
 };
 
 /**
- * @param {String} text
+ * @param {string} text
  * @param {RegExp} regex
- * @return {Record<String, String>}
+ * @return {Record<string, string>}
  */
-function getCounts(text, regex = /\w+/) {
+const getCounts = (text, regex = /\w+/) => {
   const counts = {};
   for (const w of findAll(text, regex)) {
     counts[w] = (counts[w] || 0) + 1;
   }
   return counts;
-}
+};
 
-module.exports = async function (context, req) {
-  context.log('[Node.js HTTP %s FuncApp] %s', basename(__dirname), req.originalUrl);
-
-  if (req.body && req.body.text) {
-    ok.body     = JSON.stringify(getCounts(req.body.text, req.body.regex ? new RegExp(req.body.regex, 'g') : /\w+/g));
-    context.res = ok;
-  } else {
-    context.res = bad;
+module.exports = async (context, req) => {
+  logStart(context);
+  try {
+    await validateJSON(context, schema);
+    return succeed(context, getCounts(req.body.text, req.body.regex ? new RegExp(req.body.regex, req.body.flags || 'g') : /\w+/g));
+  } catch (e) {
+    return fail(context, e.message, e.code);
   }
 };
