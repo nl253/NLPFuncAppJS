@@ -1,3 +1,24 @@
 {
+  "aggregator": {
+    "batchSize": 1000,
+    "flushTimeout": "00:00:30"
+  },
+  "logging": {
+    "logLevel": {
+      "default": "Information"
+    },
+    "fileLoggingMode": "never",
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "maxTelemetryItemsPerSecond": 2
+      }
+    }
+  },
+  "functionTimeout": "00:02:00",
+  "healthMonitor": {
+    "healthCheckInterval": "00:00:10",
+    "enabled": true
+  },
   "version": "2.0"
 }

@@ -45,22 +45,6 @@ const makeLogger = (context) => ({
   }
 });
 
-
-
-/**
- * @param {*} body
- * @param {Record<string, string>} headers
- * @param {number} status
- * @return {{headers: Record<string, string>, body: *, status: number}}
- */
-const ok = (body, headers , status ) => {
-  return {
-    body,
-    status,
-    headers,
-  };
-};
-
 /**
  * @param {*} body
  * @param {number} [status]
@@ -68,22 +52,11 @@ const ok = (body, headers , status ) => {
  * @return {{headers: Record<string, string>, body: *, status: number}}
  */
 const succeed = (context, body, headers = { ...CACHE_HEADER, ...JSON_HEADER }, status = 200) => {
-  return context.res = ok(body, status, headers);
-};
-
-/**
- * @param {string} msg
- * @param {number} status
- * @param {Record<string, string>} headers
- * @return {{headers: Record<string, string>, body: *, status: number}}
- * @private
- */
-const bad = (msg, status = 400, headers) => {
-  return {
+  return context.res = {
+    body: JSON.stringify(body),
     status,
     headers,
-    body: msg,
-  }
+  };
 };
 
 /**
@@ -93,7 +66,11 @@ const bad = (msg, status = 400, headers) => {
  * @return {{headers: Record<string, string>, body: *, status: number}}
  */
 const fail = (context, msg, status = 400, headers = { ...TEXT_HEADER }) => {
-  return context.res = bad(msg, status, headers);
+  return context.res = {
+    status,
+    headers,
+    body: msg,
+  };
 };
 
 /**
