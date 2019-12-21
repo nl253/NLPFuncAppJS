@@ -16,13 +16,14 @@ const tryDefine = async (context, word) => {
   const wordNotPlural = normalized.replace(/s$/, '');
   const wordNotPlural2 = normalized.replace(/es$/, '');
   const wordNotGerund = normalized.replace(/ing$/, '');
+  const wordNotGerund2 = normalized.replace(/ing$/, 'e');
   const wordNotPastTense = normalized.replace(/ed$/, '');
   const wordNotPastTense2 = normalized.replace(/ed$/, 'e');
   const wordNotAdjective = normalized.replace(/ly$/, '');
 
   context.log('checking regular dict');
 
-  for (const w of [word, normalized, wordNotPlural, wordNotPlural2, wordNotGerund, wordNotPastTense, wordNotPastTense2, wordNotAdjective]) {
+  for (const w of [word, normalized, wordNotPlural, wordNotPlural2, wordNotGerund, wordNotGerund2, wordNotPastTense, wordNotPastTense2, wordNotAdjective]) {
     const definition = definitions[w];
     if (definition) {
       context.log(`found definition ${JSON.stringify(definition)}`);
@@ -33,7 +34,7 @@ const tryDefine = async (context, word) => {
   context.log('checking technical dict');
 
   const dictTechnical = await fs.readFile(join(__dirname, 'dict-technical.txt'), { encoding: 'utf-8' });
-  for (const w of [word, normalized, wordNotPlural, wordNotPlural2, wordNotGerund, wordNotPastTense, wordNotPastTense2, wordNotAdjective]) {
+  for (const w of [word, normalized, wordNotPlural, wordNotPlural2, wordNotGerund, wordNotGerund2, wordNotPastTense, wordNotPastTense2, wordNotAdjective]) {
     const m = dictTechnical.match(new RegExp(`^${w}\\n\\n\\t(.*?)\\n\\n^(?=\\S)`, 'ms'));
     if (m) {
       const definition = m[1];
