@@ -55,10 +55,16 @@ const schema = {
     },
     text1: {
       type: 'string',
+      "minLength": 1
     },
     text2: {
       type: 'string',
-    }
+      "minLength": 1
+    },
+    text: {
+      type: 'string',
+      "minLength": 1
+    },
   }
 };
 

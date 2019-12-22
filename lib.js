@@ -11,7 +11,7 @@ const TEXT_HEADER = {
 };
 
 const HTML_HEADER = {
-  'Content-Type': 'text/plain',
+  'Content-Type': 'text/html',
 };
 
 const CACHE_HEADER = {

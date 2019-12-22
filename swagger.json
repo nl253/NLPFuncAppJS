@@ -1,0 +1,657 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NLP",
+    "description": "Natural Language Processing API.",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.swagger.io/support",
+      "email": "support@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "basePath": "/api",
+  "host": "nlpfuncappjs.azurewebsites.net",
+  "consumes": [
+    "application/json",
+    "text/plain",
+    "text/markdown"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain",
+    "text/html"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "Error": {
+      "minLength": 1,
+      "type": "string",
+      "title": "Error Response"
+    },
+    "StringArray": {
+      "title": "Array of Strings",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "paths": {
+    "/mdToHtml": {
+      "post": {
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "text",
+                "regex"
+              ],
+              "type": "string",
+              "maxLength": 100000,
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StringArray"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "produces": [
+          "text/html"
+        ]
+      }
+    },
+    "/lookup": {
+      "post": {
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": ["word"],
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "word": {
+                  "maxLength": 50,
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+
+      }
+
+    },
+    "/counts": {
+      "post": {
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "text",
+                "regex"
+              ],
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "maxLength": 100000,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "regex": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "flags": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "[a-z]+",
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "additionalProperties": true,
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+
+      }
+    },
+    "/regexAll": {
+      "post": {
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "text",
+                "regex"
+              ],
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "maxLength": 100000,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "regex": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "flags": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "[a-z]+",
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StringArray"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/regex": {
+      "post": {
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "text",
+                "regex"
+              ],
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "maxLength": 100000,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "regex": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "flags": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "[a-z]+",
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StringArray"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/natural": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["action"],
+              "properties": {
+                "action": {
+                  "enum": [
+                    "distance",
+                    "match",
+                    "sentiment",
+                    "stem",
+                    "tokenize",
+                    "tokenizeAndStem"
+                  ]
+                },
+                "stemmer": {
+                  "enum": [
+                    "PorterStemmer",
+                    "LancasterStemmer"
+                  ]
+                },
+                "metric": {
+                  "enum": [
+                    "DamerauLevenshteinDistance",
+                    "DiceCoefficient",
+                    "JaroWinklerDistance",
+                    "LevensteinDistance"
+                  ]
+                },
+                "tokenizer": {
+                  "enum": [
+                    "OrthographyTokenizer",
+                    "TreebankWordTokenizer",
+                    "WordPunctTokenizer",
+                    "WordTokenizer"
+                  ]
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text1": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text2": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "application/json"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/StringArray"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/compromise": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "description": "",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "text",
+                "type"
+              ],
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "maxLength": 100000,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "type": {
+                  "minLength": 1,
+                  "type": "string",
+                  "enum": [
+                    "abbreviations",
+                    "acronyms",
+                    "adverbs",
+                    "atMentions",
+                    "clauses",
+                    "conjunctions",
+                    "contractions",
+                    "emails",
+                    "hashTags",
+                    "hyphenated",
+                    "lists",
+                    "money",
+                    "nouns",
+                    "numbers",
+                    "organizations",
+                    "parenthesis",
+                    "people",
+                    "phoneNumbers",
+                    "places",
+                    "possessives",
+                    "prepositions",
+                    "pronouns",
+                    "quotations",
+                    "terms",
+                    "topics",
+                    "urls",
+                    "verbs"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "application/json"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/StringArray"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": [
+                  "text/plain"
+                ]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

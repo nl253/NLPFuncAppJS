@@ -61,6 +61,7 @@ module.exports = async (context, req) => {
       properties: {
         word: {
           type: "string",
+          minLength: 1,
           pattern: "[a-zA-Z ]+"
         }
       }

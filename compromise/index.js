@@ -9,6 +9,7 @@ const schema = {
   properties: {
     text: {
       type: 'string',
+      minLength: 1,
     },
     type: {
       enum: [

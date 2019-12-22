@@ -29,6 +29,7 @@ module.exports = async (context, req) => {
     await validateJSON(context, {
       $id: __dirname,
       type: "string",
+      minLength: 1,
     });
     return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
   } catch (e) {
