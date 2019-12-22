@@ -52,9 +52,10 @@
     "@azure/functions": "^1.0.3"
   },
   "dependencies": {
+    "marked": "^0.8.0",
     "ajv": "^6.10.2",
     "compromise": "^11.14.2",
-    "marked": "^0.7.0",
+    "highlight.js": "^9.17.1",
     "html-to-text": "^5.1.1",
     "natural": "latest"
   }
