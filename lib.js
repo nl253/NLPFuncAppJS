@@ -10,6 +10,10 @@ const TEXT_HEADER = {
   'Content-Type': 'text/plain',
 };
 
+const HTML_HEADER = {
+  'Content-Type': 'text/plain',
+};
+
 const CACHE_HEADER = {
   'Cache-Control': 'private, immutable',
 };
@@ -103,6 +107,7 @@ module.exports = {
   HTTP_ERR,
   TEXT_HEADER,
   JSON_HEADER,
+  HTML_HEADER,
   CACHE_HEADER,
   logStart,
   fail,

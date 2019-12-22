@@ -5,7 +5,7 @@ const {
   fail,
   succeed,
   validateJSON,
-  TEXT_HEADER,
+  HTML_HEADER,
   CACHE_HEADER,
 } = require('../lib');
 
@@ -30,7 +30,7 @@ module.exports = async (context, req) => {
       $id: __dirname,
       type: "string",
     });
-    return succeed(context, parser(lexer(req.body)), { ...TEXT_HEADER, ...CACHE_HEADER })
+    return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
   } catch (e) {
     return fail(context, e.message, e.code);
   }
