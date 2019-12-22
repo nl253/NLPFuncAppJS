@@ -11,12 +11,13 @@ const {
 
 setOptions({
   renderer: new Renderer(),
-  highlight: function(code) {
-    return require('highlight.js').highlightAuto(code).value;
-  },
+  highlight: code => require('highlight.js').highlightAuto(code).value,
   pedantic: false,
   gfm: true,
-  breaks: false,
+  silent: true,
+  headerIds: false,
+  mangle: true,
+  breaks: true,
   sanitize: false,
   smartLists: true,
   smartypants: true,
