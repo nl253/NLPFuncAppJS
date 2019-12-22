@@ -53,7 +53,9 @@ const makeLogger = (context) => ({
  */
 const succeed = (context, body, headers = { ...CACHE_HEADER, ...JSON_HEADER }, status = 200) => {
   return context.res = {
-    body: JSON.stringify(body),
+    body: (headers['Content-Type'] || '').indexOf('/json') >= 0 || headers['Content-Type'] === undefined
+      ? JSON.stringify(body)
+      : body,
     status,
     headers,
   };
