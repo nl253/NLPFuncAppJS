@@ -93,10 +93,16 @@ const validateJSON = async (context, schema, what = 'body') => {
   if (context.req[what] === null || context.req[what] === undefined) {
     throw new APIError(`${what} is missing from the request`, HTTP_ERR.USER_ERR);
   }
-  const validate = new Ajv({ messages: true, verbose: true, allErrors: true, unicode: false, logger: makeLogger(context) }).compile({
+  const validate = new Ajv({
+    messages: true,
+    verbose: true,
+    allErrors: true,
+    unicode: false,
+    logger: makeLogger(context),
+  }).compile({
     $schema: "http://json-schema.org/draft-07/schema#",
-    id: schema.id || schema.description,
-    description: schema.description || schema.id,
+    $id: schema.$id || schema.description,
+    description: schema.description || schema.$id,
     ...schema
   });
   const valid = validate(context.req[what]);
