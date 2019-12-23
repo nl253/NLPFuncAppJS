@@ -23,7 +23,7 @@ module.exports = async function (context, req) {
         }
       }
     });
-    const flagSet = new Set(['g', ...(req.body.flags || '')]);
+    const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regex = new RegExp(req.body.regex, flags);
     return succeed(context, regex.exec(req.body.text));

@@ -39,7 +39,7 @@ module.exports = async (context, req) => {
 
   try {
     await validateJSON(context, schema);
-    const flagSet = new Set(['g', ...(req.body.flags || '')]);
+    const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regExp = new RegExp(req.body.regex, flags);
     return succeed(context, findAll(regExp, req.body.text))

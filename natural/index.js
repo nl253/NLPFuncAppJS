@@ -42,9 +42,7 @@ const schema = {
         'DamerauLevenshteinDistance',
         'DiceCoefficient',
         'JaroWinklerDistance',
-        '{\n' +
-        '    "word": "cat"\n' +
-        '}LevensteinDistance',
+        'LevensteinDistance',
       ],
     },
     tokenizer: {
