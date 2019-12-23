@@ -23,13 +23,9 @@ module.exports = async function (context, req) {
         }
       }
     });
-    const flags = new Set(['g']);
-    if (req.body.flags) {
-      for (let i = 0; i < req.body.flags.length; i++) {
-        flags.add(req.body.flags[i]);
-      }
-    }
-    const regex = new RegExp(req.body.regex, Array.from(flags).join(''));
+    const flagSet = new Set(['g', ...(req.body.flags || '')]);
+    const flags = Array.from(flagSet).join('');
+    const regex = new RegExp(req.body.regex, flags);
     return succeed(context, regex.exec(req.body.text));
   } catch (e) {
     return fail(context, e.message, e.code);

@@ -42,7 +42,9 @@ const schema = {
         'DamerauLevenshteinDistance',
         'DiceCoefficient',
         'JaroWinklerDistance',
-        'LevensteinDistance',
+        '{\n' +
+        '    "word": "cat"\n' +
+        '}LevensteinDistance',
       ],
     },
     tokenizer: {
@@ -111,9 +113,10 @@ const stem = (word, stemmer = 'PorterStemmer') => {
 
 /**
  * @param {string} txt
+ * @param {'WordPunctTokenizer'|'WordTokenizer'|'TreebankWordTokenizer'|'WordTokenizer'|'OrthographyTokenizer'} [tokenizer]
  * @return {number}
  */
-const sentiment = txt => new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt));
+const sentiment = (txt, tokenizer = 'WordTokenizer') => new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
 
 /**
  * @param {string} txt
@@ -125,13 +128,13 @@ const tokenizeAndStem = (txt, tokenizer = 'WordTokenizer', stemmer = 'PorterStem
   const Stemmer = stemmer === 'PorterStemmer'
     ? new PorterStemmer()
     : new LancasterStemmer();
-  return tokenize(txt).map(w => Stemmer.stem(w));
+  return tokenize(txt, tokenizer).map(w => Stemmer.stem(w));
 };
 
 /**
  * @param {string} s1
  * @param {string} s2
- * @param {'LevensteinDistance'|'DamerauLevenshteinDistance'|'JaroWinklerDistance'|'DiceCoefficient'} [metric]
+ * @param {'LevenshteinDistance'|'DamerauLevenshteinDistance'|'JaroWinklerDistance'|'DiceCoefficient'} [metric]
  * @return {number}
  */
 const distance = (s1, s2, metric = 'LevenshteinDistance') => {
@@ -167,22 +170,22 @@ module.exports = async (context, req) => {
 
     switch (req.body.action) {
       case 'tokenize': {
-        return succeed(context, tokenize(req.body.text, req.body.tokenizer || 'WordTokenizer'))
+        return succeed(context, tokenize(req.body.text, req.body.tokenizer))
       }
       case 'stem': {
-        return succeed(context, stem(req.body.text, req.body.stemmer || 'PorterStemmer'));
+        return succeed(context, stem(req.body.text, req.body.stemmer));
       }
       case 'match': {
         return succeed(context, match(req.body.text1, req.body.text2));
       }
       case 'distance': {
-        return succeed(context, distance(req.body.text1, req.body.text2, req.body.metric || 'LevenshteinDistance'));
+        return succeed(context, distance(req.body.text1, req.body.text2, req.body.metric));
       }
       case 'sentiment': {
-        return succeed(context, sentiment(req.body.text));
+        return succeed(context, sentiment(req.body.text, req.body.tokenizer));
       }
       case 'tokenizeAndStem': {
-        return succeed(context, tokenizeAndStem(req.body.text, req.body.tokenizer || 'WordTokenizer', req.body.stemmer || 'PorterStemmer'));
+        return succeed(context, tokenizeAndStem(req.body.text, req.body.tokenizer, req.body.stemmer));
       }
       // XXX SLOW
       // case 'spellcheck': {

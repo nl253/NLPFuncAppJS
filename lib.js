@@ -50,6 +50,7 @@ const makeLogger = (context) => ({
 });
 
 /**
+ * @param {*} context
  * @param {*} body
  * @param {number} [status]
  * @param {Record<string, string>} [headers]
@@ -66,6 +67,7 @@ const succeed = (context, body, headers = { ...CACHE_HEADER, ...JSON_HEADER }, s
 };
 
 /**
+ * @param {*} context
  * @param {*} msg
  * @param {number} [status]
  * @param {Record<string, string>} [headers]

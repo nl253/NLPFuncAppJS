@@ -36,7 +36,7 @@ const findAll = (str, regex) => {
  * @param {RegExp} regex
  * @return {Record<string, string>}
  */
-const getCounts = (text, regex = /\w+/) => {
+const getCounts = (text, regex) => {
   const counts = {};
   for (const w of findAll(text, regex)) {
     counts[w] = (counts[w] || 0) + 1;
