@@ -2,317 +2,260 @@
   "swagger": "2.0",
   "info": {
     "title": "NLP",
+    "version": "1.0",
     "description": "Natural Language Processing API.",
     "contact": {
-      "name": "API Support",
-      "url": "http://www.swagger.io/support",
-      "email": "support@swagger.io"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version": "1.0"
-  },
-  "basePath": "/api",
-  "host": "nlpfuncappjs.azurewebsites.net",
-  "consumes": [
-    "application/json",
-    "text/plain",
-    "text/markdown"
-  ],
-  "produces": [
-    "application/json",
-    "text/plain",
-    "text/html"
-  ],
-  "schemes": [
-    "https"
-  ],
-  "definitions": {
-    "Error": {
-      "minLength": 1,
-      "type": "string",
-      "title": "Error Response"
-    },
-    "StringArray": {
-      "title": "Array of Strings",
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
+      "name": "Norbert Logiewa",
+      "email": "norbertlogiewa96@gmail.com",
+      "url": "https://github.com/nl253"
     }
   },
+  "host": "nlp-apim.azure-api.net",
+  "schemes": ["https"],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "api-key",
+      "in": "query"
+    }
+  },
+  "security": [{"apiKeyHeader": []}, {"apiKeyQuery": []}],
   "paths": {
     "/mdToHtml": {
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": [
-                "text",
-                "regex"
-              ],
-              "type": "string",
-              "maxLength": 100000,
-              "minLength": 1
-            }
+        "description": "Markdown to HTML",
+        "operationId": "post-mdtohtml",
+        "summary": "Markdown to HTML",
+        "tags": ["nlp", "markdown", "html", "conversion"],
+        "parameters": [{
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Markdown to HTML Request Body"
           }
-        ],
+        }],
+        "consumes": ["text/plain", "text/markdown", "text/html", "text/xhtml"],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/StringArray"
+              "$ref": "#/definitions/Markdown to HTML Response Body"
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
         },
-        "consumes": [
-          "text/plain",
-          "text/markdown"
-        ],
-        "produces": [
-          "text/html"
-        ]
+        "produces": ["text/html"]
       }
     },
     "/lookup": {
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": ["word"],
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "word": {
-                  "maxLength": 50,
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            }
+        "description": "Lookup",
+        "operationId": "post-lookup",
+        "summary": "Lookup",
+        "tags": ["nlp", "dictionary"],
+        "parameters": [{
+          "name": "lookup Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Lookup Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "type": "string",
-              "minLength": 1
+              "$ref": "#/definitions/Lookup Response Body"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "enum": ["text/plain"],
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "404": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           },
-          "400": {
+          "502": {
             "description": "",
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
         },
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ]
-
+        "produces": ["application/json"]
       }
-
     },
     "/counts": {
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": [
-                "text",
-                "regex"
-              ],
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "text": {
-                  "maxLength": 100000,
-                  "type": "string",
-                  "minLength": 1
-                },
-                "regex": {
-                  "minLength": 1,
-                  "type": "string"
-                },
-                "flags": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "[a-z]+",
-                  "uniqueItems": true
-                }
-              }
-            }
+        "description": "Counts",
+        "operationId": "post-counts",
+        "summary": "Counts",
+        "tags": ["nlp", "regex"],
+        "parameters": [{
+          "name": "counts Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Counts Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "additionalProperties": true,
-              "type": "object"
+              "$ref": "#/definitions/Counts Response Body"
+            },
+            "examples": {
+              "application/json": {
+                "abc": 22,
+                "de": 33
+              }
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"],
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
         },
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ]
-
+        "produces": ["application/json"]
       }
     },
     "/regexAll": {
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": [
-                "text",
-                "regex"
-              ],
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "text": {
-                  "maxLength": 100000,
-                  "type": "string",
-                  "minLength": 1
-                },
-                "regex": {
-                  "minLength": 1,
-                  "type": "string"
-                },
-                "flags": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "[a-z]+",
-                  "uniqueItems": true
-                }
-              }
-            }
+        "description": "Regex All",
+        "operationId": "post-regexall",
+        "summary": "Regex All",
+        "tags": ["nlp", "regex"],
+        "parameters": [{
+          "name": "Content-Type",
+          "in": "header",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "regex Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Regex All Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
             "schema": {
-              "$ref": "#/definitions/StringArray"
+              "$ref": "#/definitions/Regex All Response Body"
             }
           },
           "400": {
@@ -320,13 +263,23 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
@@ -334,64 +287,36 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
         },
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/regex": {
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": [
-                "text",
-                "regex"
-              ],
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "text": {
-                  "maxLength": 100000,
-                  "type": "string",
-                  "minLength": 1
-                },
-                "regex": {
-                  "minLength": 1,
-                  "type": "string"
-                },
-                "flags": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "[a-z]+",
-                  "uniqueItems": true
-                }
-              }
-            }
+        "description": "Regex",
+        "operationId": "post-regex",
+        "summary": "Regex",
+        "tags": ["nlp", "regex"],
+        "parameters": [{
+          "name": "counts Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Regex Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/StringArray"
+              "$ref": "#/definitions/Regex Response Body"
             }
           },
           "400": {
@@ -399,13 +324,23 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
@@ -413,103 +348,42 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
         },
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ]
+        "produces": ["application/json"]
       }
     },
     "/natural": {
       "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["action"],
-              "properties": {
-                "action": {
-                  "enum": [
-                    "distance",
-                    "match",
-                    "sentiment",
-                    "stem",
-                    "tokenize",
-                    "tokenizeAndStem"
-                  ]
-                },
-                "stemmer": {
-                  "enum": [
-                    "PorterStemmer",
-                    "LancasterStemmer"
-                  ]
-                },
-                "metric": {
-                  "enum": [
-                    "DamerauLevenshteinDistance",
-                    "DiceCoefficient",
-                    "JaroWinklerDistance",
-                    "LevensteinDistance"
-                  ]
-                },
-                "tokenizer": {
-                  "enum": [
-                    "OrthographyTokenizer",
-                    "TreebankWordTokenizer",
-                    "WordPunctTokenizer",
-                    "WordTokenizer"
-                  ]
-                },
-                "text": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "text1": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "text2": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            }
+        "description": "Natural",
+        "operationId": "post-natural",
+        "summary": "Natural",
+        "tags": ["nlp", "natural"],
+        "parameters": [{
+          "name": "natural Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Natural Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "application/json"
-                ]
+                "enum": ["text/plain"]
               }
             },
-            "schema": {
-              "$ref": "#/definitions/StringArray"
+            "examples": {
+              "0": ["Annie", "was", "in", "a", "great", "mood", "that", "day"]
             }
           },
           "400": {
@@ -517,13 +391,23 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
             }
           },
           "503": {
@@ -531,95 +415,42 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
             }
           }
-        }
+        },
+        "produces": ["application/json"]
       }
     },
     "/compromise": {
       "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "description": "",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "required": [
-                "text",
-                "type"
-              ],
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "text": {
-                  "maxLength": 100000,
-                  "type": "string",
-                  "minLength": 1
-                },
-                "type": {
-                  "minLength": 1,
-                  "type": "string",
-                  "enum": [
-                    "abbreviations",
-                    "acronyms",
-                    "adverbs",
-                    "atMentions",
-                    "clauses",
-                    "conjunctions",
-                    "contractions",
-                    "emails",
-                    "hashTags",
-                    "hyphenated",
-                    "lists",
-                    "money",
-                    "nouns",
-                    "numbers",
-                    "organizations",
-                    "parenthesis",
-                    "people",
-                    "phoneNumbers",
-                    "places",
-                    "possessives",
-                    "prepositions",
-                    "pronouns",
-                    "quotations",
-                    "terms",
-                    "topics",
-                    "urls",
-                    "verbs"
-                  ]
-                }
-              }
-            }
+        "description": "Compromise",
+        "operationId": "post-compromise",
+        "summary": "Compromise",
+        "tags": ["nlp", "compromise"],
+        "parameters": [{
+          "name": "compromise Request Body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Compromise Request Body"
           }
-        ],
+        }],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "description": "",
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "application/json"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/StringArray"
+              "$ref": "#/definitions/Compromise Response Body"
             }
           },
           "400": {
@@ -627,13 +458,26 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "enum": ["text/plain"]
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error Response Body"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
             }
           },
           "503": {
@@ -641,17 +485,232 @@
             "headers": {
               "Content-Type": {
                 "type": "string",
-                "enum": [
-                  "text/plain"
-                ]
+                "enum": ["text/plain"]
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error"
+              "$ref": "#/definitions/Error Response Body"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
             }
           }
-        }
+        },
+        "produces": ["application/json", "text/plain"]
       }
     }
-  }
+  },
+  "definitions": {
+    "Error Response Body": {
+      "minLength": 1,
+      "example": "something went wrong",
+      "type": "string",
+      "title": "Error Response"
+    },
+    "Compromise Request Body": {
+      "required": ["text", "type"],
+      "example": {
+        "text": "Mr Turning was a very good student.",
+        "type": "people"
+      },
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "maxLength": 100000,
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": ["abbreviations", "acronyms", "adverbs", "atMentions", "clauses", "conjunctions", "contractions", "emails", "hashTags", "hyphenated", "lists", "money", "nouns", "numbers", "organizations", "parenthesis", "people", "phoneNumbers", "places", "possessives", "prepositions", "pronouns", "quotations", "terms", "topics", "urls", "verbs"]
+        }
+      }
+    },
+    "Compromise Response Body": {
+      "title": "Array of Strings",
+      "type": "array",
+      "example": ["mary", "susan", "annie"],
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "Regex All Request Body": {
+      "required": ["text", "regex"],
+      "type": "object",
+      "additionalProperties": false,
+      "example": {
+        "text": "abaddb aba ab",
+        "regex": "a+",
+        "flags": "i"
+      },
+      "properties": {
+        "text": {
+          "maxLength": 100000,
+          "type": "string",
+          "minLength": 1
+        },
+        "regex": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "flags": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "[a-z]+",
+          "uniqueItems": true
+        }
+      }
+    },
+    "Reqex All Response Body": {
+      "type": "array",
+      "example": ["a", "b", "c"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "Lookup Request Body": {
+      "required": ["word"],
+      "type": "object",
+      "example": {
+        "word": "cat"
+      },
+      "additionalProperties": false,
+      "properties": {
+        "word": {
+          "maxLength": 50,
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Lookup Response Body": {
+      "type": "object",
+      "example": {
+        "definition": "flap  n. (also cat door) small swinging flap in an outer door, for a cat to pass in and out."
+      },
+      "additionalProperties": false,
+      "required": ["definition"],
+      "properties": {
+        "definition": {
+          "type": "string"
+        }
+      }
+    },
+    "Regex Request Body": {
+      "required": ["text", "regex"],
+      "type": "object",
+      "additionalProperties": false,
+      "example": {
+        "text": "abaddb aba ab",
+        "regex": "a+",
+        "flags": "i"
+      },
+      "properties": {
+        "text": {
+          "maxLength": 100000,
+          "type": "string",
+          "minLength": 1
+        },
+        "regex": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "flags": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "[a-z]+",
+          "uniqueItems": true
+        }
+      }
+    },
+    "Reqex Response Body": {
+      "type": "array",
+      "example": ["a", "b", "c"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "Counts Request Body": {
+      "required": ["text", "regex"],
+      "example": {
+        "text": "abaddb aba ab",
+        "regex": "a+"
+      },
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "maxLength": 100000,
+          "type": "string",
+          "minLength": 1
+        },
+        "regex": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "flags": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "[a-z]+",
+          "uniqueItems": true
+        }
+      }
+    },
+    "Counts Response Body": {
+      "type": "object",
+      "example": {"a":  22, "b":  44},
+      "additionalProperties": true,
+      "properties": {}
+    },
+    "Markdown to HTML Request Body": {
+      "example": "some",
+      "type": "string",
+      "minLength": 1
+    },
+    "Markdown to HTML Response Body": {
+      "example": "<p>some</p>",
+      "type": "string"
+    },
+    "Natural Request Body": {
+      "type": "object",
+      "required": ["action"],
+      "example": {
+        "text": "Annie was in a great mood that day.",
+        "action": "tokenize"
+      },
+      "properties": {
+        "action": {
+          "enum": ["distance", "match", "sentiment", "stem", "tokenize", "tokenizeAndStem"]
+        },
+        "stemmer": {
+          "enum": ["PorterStemmer", "LancasterStemmer"]
+        },
+        "metric": {
+          "enum": ["DamerauLevenshteinDistance", "DiceCoefficient", "JaroWinklerDistance", "LevensteinDistance"]
+        },
+        "tokenizer": {
+          "enum": ["OrthographyTokenizer", "TreebankWordTokenizer", "WordPunctTokenizer", "WordTokenizer"]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text1": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text2": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Text Plain Header": {
+      "type": "string",
+      "enum": ["text/plain"]
+    }
+  },
+  "tags": [{"name": "nlp"}]
 }

@@ -25,7 +25,9 @@ module.exports = async function (context, req) {
     });
     const flags = new Set(['g']);
     if (req.body.flags) {
-      req.body.flags.forEach(f => flags.add(f));
+      for (let i = 0; i < req.body.flags.length; i++) {
+        flags.add(req.body.flags[i]);
+      }
     }
     const regex = new RegExp(req.body.regex, Array.from(flags).join(''));
     return succeed(context, regex.exec(req.body.text));
