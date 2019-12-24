@@ -31,6 +31,7 @@ class APIError extends Error {
 }
 
 const logStart = (context) => {
+  context.log(context, {depth: 10});
   context.log('[Node.js HTTP %s FuncApp] %s %s', basename(__dirname), context.req.method, context.req.originalUrl);
   context.log('body %s', context.req.body ? JSON.stringify(context.req.body).substr(0, 200) : 'undefined');
   context.log('query %s', JSON.stringify(context.req.query).substr(0, 200));
