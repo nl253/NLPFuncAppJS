@@ -20,4 +20,4 @@ jobs:
       id: fa
       with:
         app-name: nlpfuncappjs
-        publish-profile: ${{ secrets.SCM_CREDENTIALS }}
+        publish-profile: ${{ secrets.ScmCredentials }}
