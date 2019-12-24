@@ -1,4 +1,4 @@
-{
+module.exports = {
   "$id": "counts",
   "type": "object",
   "required": ["text", "regex"],
@@ -13,4 +13,4 @@
       "type": "string"
     }
   }
-}
+};

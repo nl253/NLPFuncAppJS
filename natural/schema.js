@@ -1,4 +1,4 @@
-{
+module.exports = {
   "$id": "natural",
   "type": "object",
   "required": ["action"],
@@ -49,4 +49,4 @@
       "minLength": 1
     }
   }
-}
+};

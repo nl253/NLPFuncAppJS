@@ -1,4 +1,4 @@
-{
+module.exports = {
   "$id": "regex",
   "type": "object",
   "required": ["text", "regex"],
@@ -16,4 +16,4 @@
       "minLength": 1
     }
   }
-}
+};

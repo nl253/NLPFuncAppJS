@@ -1,4 +1,4 @@
-{
+module.exports = {
   "$id": "compromise",
   "type": "object",
   "required": ["text", "type"],
@@ -35,4 +35,4 @@
       ]
     }
   }
-}
+};

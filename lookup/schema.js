@@ -1,4 +1,4 @@
-{
+module.exports = {
   "$id": "lookup",
   "type": "object",
   "required": ["word"],
@@ -9,4 +9,4 @@
       "pattern": "[a-zA-Z ]+"
     }
   }
-}
+};

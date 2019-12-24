@@ -27,7 +27,7 @@ setOptions({
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, __filename);
+    await validateJSON(context, require('./schema'));
     return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
   } catch (e) {
     return fail(context, e.message, e.code);

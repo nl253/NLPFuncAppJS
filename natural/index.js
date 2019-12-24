@@ -117,7 +117,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, 'mdToHtml');
+    await validateJSON(context, require('./schema'));
 
     switch (req.body.action) {
       case 'tokenize': {

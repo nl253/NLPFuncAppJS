@@ -4,7 +4,7 @@ module.exports = async function (context, req) {
   logStart(context);
 
   try {
-    await validateJSON(context, 'regex');
+    await validateJSON(context, require('./schema'));
     const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regex = new RegExp(req.body.regex, flags);

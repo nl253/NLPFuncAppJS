@@ -84,15 +84,14 @@ const fail = (context, msg, status = 400, headers = { ...TEXT_HEADER }) => {
 
 /**
  * @param {*} context
- * @param {string} fName
+ * @param {*} schema
  * @param {'body'|'query'} [what]
  * @returns {Promise<void>}
  */
-const validateJSON = async (context, fName, what = 'body') => {
+const validateJSON = async (context, schema, what = 'body') => {
   if (context.req[what] === null || context.req[what] === undefined) {
     throw new APIError(`${what} is missing from the request`, HTTP_ERR.USER_ERR);
   }
-  const schema = require(join('./', fName, 'schema.json'));
   const validate = new Ajv({
     messages: true,
     verbose: true,

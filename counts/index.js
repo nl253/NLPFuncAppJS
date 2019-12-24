@@ -30,7 +30,7 @@ const getCounts = (text, regex) => {
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, 'counts');
+    await validateJSON(context, require('./schema'));
     const flags = Array.from(new Set(Array.from((req.body.flags || '') + 'g'))).join('');
     const regexFallback = /\w+/g;
     const regex = req.body.regex ? (new RegExp(req.body.regex, flags)) : regexFallback;
