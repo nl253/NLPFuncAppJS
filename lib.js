@@ -1,4 +1,4 @@
-const {basename} = require('path');
+const {basename, join, dirname} = require('path');
 
 const Ajv = require('ajv');
 
@@ -84,14 +84,15 @@ const fail = (context, msg, status = 400, headers = { ...TEXT_HEADER }) => {
 
 /**
  * @param {*} context
- * @param {Record<string, *>} schema
+ * @param {string} fName
  * @param {'body'|'query'} [what]
  * @returns {Promise<void>}
  */
-const validateJSON = async (context, schema, what = 'body') => {
+const validateJSON = async (context, fName, what = 'body') => {
   if (context.req[what] === null || context.req[what] === undefined) {
     throw new APIError(`${what} is missing from the request`, HTTP_ERR.USER_ERR);
   }
+  const schema = require(join(__dirname, basename(dirname(fName)), 'schema.json'));
   const validate = new Ajv({
     messages: true,
     verbose: true,

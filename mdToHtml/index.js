@@ -27,11 +27,7 @@ setOptions({
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, {
-      $id: __dirname,
-      type: "string",
-      minLength: 1,
-    });
+    await validateJSON(context, __filename);
     return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
   } catch (e) {
     return fail(context, e.message, e.code);

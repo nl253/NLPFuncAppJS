@@ -1,25 +1,5 @@
 const { logStart, succeed, fail, validateJSON } = require('../lib');
 
-const schema = {
-  $id: __dirname,
-  type: 'object',
-  required: ['text', 'regex'],
-  properties: {
-    text: {
-      type: 'string',
-      minLength: 1,
-    },
-    regex: {
-      type: 'string',
-      minLength: 1,
-    },
-    flags: {
-      type: 'string',
-      minLength: 1,
-    }
-  }
-};
-
 /**
  * @param {RegExp} regex
  * @param {string} str
@@ -38,7 +18,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, schema);
+    await validateJSON(context, __filename);
     const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regExp = new RegExp(req.body.regex, flags);

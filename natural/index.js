@@ -1,58 +1,5 @@
 const { succeed, fail, validateJSON, logStart } = require('../lib');
 
-const schema = {
-  $id: __dirname,
-  type: 'object',
-  required: ["action"],
-  additionalItems: true,
-  properties: {
-    action: {
-      enum: [
-        'distance',
-        'match',
-        'sentiment',
-        'stem',
-        'tokenize',
-        'tokenizeAndStem',
-      ]
-    },
-    stemmer: {
-      enum: [
-        'PorterStemmer',
-        'LancasterStemmer',
-      ],
-    },
-    metric: {
-      enum: [
-        'DamerauLevenshteinDistance',
-        'DiceCoefficient',
-        'JaroWinklerDistance',
-        'LevensteinDistance',
-      ],
-    },
-    tokenizer: {
-      enum: [
-        'OrthographyTokenizer',
-        'TreebankWordTokenizer',
-        'WordPunctTokenizer',
-        'WordTokenizer',
-      ],
-    },
-    text1: {
-      type: 'string',
-      minLength: 1
-    },
-    text2: {
-      type: 'string',
-      "minLength": 1
-    },
-    text: {
-      type: 'string',
-      minLength: 1
-    },
-  }
-};
-
 /**
  * @param {string} txt
  * @param {'WordPunctTokenizer'|'WordTokenizer'|'TreebankWordTokenizer'|'WordTokenizer'|'OrthographyTokenizer'} [tokenizer]
@@ -170,7 +117,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, schema);
+    await validateJSON(context, __filename);
 
     switch (req.body.action) {
       case 'tokenize': {

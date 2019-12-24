@@ -54,18 +54,7 @@ const tryDefine = async (context, word) => {
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, {
-      $id: __dirname,
-      type: "object",
-      required: ['word'],
-      properties: {
-        word: {
-          type: "string",
-          minLength: 1,
-          pattern: "[a-zA-Z ]+"
-        }
-      }
-    });
+    await validateJSON(context, __filename);
     return succeed(context, {definition: await tryDefine(context, req.body.word)});
   } catch (e) {
     return fail(context, e.message, e.code)
