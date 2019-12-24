@@ -4,7 +4,7 @@ module.exports = async function (context, req) {
   logStart(context);
 
   try {
-    await validateJSON(context, __filename);
+    await validateJSON(context, 'regex');
     const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regex = new RegExp(req.body.regex, flags);

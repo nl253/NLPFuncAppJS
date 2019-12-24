@@ -18,7 +18,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, __filename);
+    await validateJSON(context, 'regexAll');
     const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regExp = new RegExp(req.body.regex, flags);

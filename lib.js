@@ -1,4 +1,4 @@
-const {basename, join, dirname} = require('path');
+const {join} = require('path');
 
 const Ajv = require('ajv');
 
@@ -32,7 +32,7 @@ class APIError extends Error {
 
 const logStart = (context) => {
   context.log(context, {depth: 10});
-  context.log('[Node.js HTTP %s FuncApp] %s %s', basename(__dirname), context.req.method, context.req.originalUrl);
+  context.log('[Node.js HTTP %s FuncApp] %s', context.req.method, context.req.originalUrl);
   context.log('body %s', context.req.body ? JSON.stringify(context.req.body).substr(0, 200) : 'undefined');
   context.log('query %s', JSON.stringify(context.req.query).substr(0, 200));
 };
@@ -92,7 +92,7 @@ const validateJSON = async (context, fName, what = 'body') => {
   if (context.req[what] === null || context.req[what] === undefined) {
     throw new APIError(`${what} is missing from the request`, HTTP_ERR.USER_ERR);
   }
-  const schema = require(join(__dirname, basename(dirname(fName)), 'schema.json'));
+  const schema = require(join('./', fName, 'schema.json'));
   const validate = new Ajv({
     messages: true,
     verbose: true,

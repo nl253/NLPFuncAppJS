@@ -54,7 +54,7 @@ const tryDefine = async (context, word) => {
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, __filename);
+    await validateJSON(context, 'lookup');
     return succeed(context, {definition: await tryDefine(context, req.body.word)});
   } catch (e) {
     return fail(context, e.message, e.code)
