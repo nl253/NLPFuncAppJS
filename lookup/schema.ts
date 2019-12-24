@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "$id": "lookup",
   "type": "object",
   "required": ["word"],

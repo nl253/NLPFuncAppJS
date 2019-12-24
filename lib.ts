@@ -1,6 +1,4 @@
-const {join} = require('path');
-
-const Ajv = require('ajv');
+import * as Ajv from 'ajv';
 
 const JSON_HEADER = {
   'Content-Type': 'application/json',
@@ -24,8 +22,10 @@ const HTTP_ERR = {
 };
 
 class APIError extends Error {
-  constructor(msg = 'something went wrong', code = HTTP_ERR.USER_ERR,...args) {
-    super(msg, ...args);
+  public readonly code: number;
+
+  constructor(msg = 'something went wrong', code = HTTP_ERR.USER_ERR) {
+    super(msg);
     this.code = code;
   }
 }
@@ -112,7 +112,7 @@ const validateJSON = async (context, schema, what = 'body') => {
   }
 };
 
-module.exports = {
+export {
   HTTP_ERR,
   TEXT_HEADER,
   JSON_HEADER,

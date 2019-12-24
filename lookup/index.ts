@@ -1,9 +1,12 @@
-const fs = require('fs').promises;
-const {join} = require('path');
+import {promises as fs} from 'fs';
 
-const { succeed, fail, logStart, validateJSON, APIError } = require('../lib');
+import {join} from 'path';
 
-const definitions = require('./dict.json');
+import {APIError, fail, logStart, succeed, validateJSON} from '../lib';
+
+import * as definitions from './dict.json';
+
+import * as schema from './schema';
 
 /**
  * @param {{log: function(...*)}} context
@@ -54,7 +57,7 @@ const tryDefine = async (context, word) => {
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, require('./schema'));
+    await validateJSON(context, schema);
     return succeed(context, {definition: await tryDefine(context, req.body.word)});
   } catch (e) {
     return fail(context, e.message, e.code)

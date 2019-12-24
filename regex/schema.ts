@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "$id": "regex",
   "type": "object",
   "required": ["text", "regex"],

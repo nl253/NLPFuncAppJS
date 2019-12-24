@@ -1,13 +1,15 @@
-const { lexer, parser, Renderer, setOptions } = require('marked');
+import {lexer, parser, Renderer, setOptions} from 'marked';
 
-const {
-  logStart,
+import {
+  CACHE_HEADER,
   fail,
+  HTML_HEADER,
+  logStart,
   succeed,
   validateJSON,
-  HTML_HEADER,
-  CACHE_HEADER,
-} = require('../lib');
+} from '../lib';
+
+import * as schema from './schema';
 
 setOptions({
   renderer: new Renderer(),
@@ -27,7 +29,7 @@ setOptions({
 module.exports = async (context, req) => {
   logStart(context);
   try {
-    await validateJSON(context, require('./schema'));
+    await validateJSON(context, schema);
     return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
   } catch (e) {
     return fail(context, e.message, e.code);

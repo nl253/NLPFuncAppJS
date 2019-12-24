@@ -1,4 +1,6 @@
-const { logStart, succeed, fail, validateJSON } = require('../lib');
+import {fail, logStart, succeed, validateJSON} from '../lib';
+
+import * as schema from './schema';
 
 /**
  * @param {RegExp} regex
@@ -18,7 +20,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, require('./schema'));
+    await validateJSON(context, schema);
     const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
     const flags = Array.from(flagSet).join('');
     const regExp = new RegExp(req.body.regex, flags);

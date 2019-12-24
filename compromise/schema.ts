@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "$id": "compromise",
   "type": "object",
   "required": ["text", "type"],

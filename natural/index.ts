@@ -1,4 +1,6 @@
-const { succeed, fail, validateJSON, logStart } = require('../lib');
+import {fail, logStart, succeed, validateJSON} from '../lib';
+
+import * as schema from './schema';
 
 /**
  * @param {string} txt
@@ -117,7 +119,7 @@ module.exports = async (context, req) => {
   logStart(context);
 
   try {
-    await validateJSON(context, require('./schema'));
+    await validateJSON(context, schema);
 
     switch (req.body.action) {
       case 'tokenize': {
