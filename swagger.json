@@ -3,15 +3,12 @@
   "info": {
     "title": "NLP",
     "version": "1.0",
-    "description": "Natural Language Processing API.",
-    "contact": {
-      "name": "Norbert Logiewa",
-      "email": "norbertlogiewa96@gmail.com",
-      "url": "https://github.com/nl253"
-    }
+    "description": "Natural Language Processing API."
   },
   "host": "nlp-apim.azure-api.net",
-  "schemes": ["https"],
+  "schemes": [
+    "https"
+  ],
   "securityDefinitions": {
     "apiKeyHeader": {
       "type": "apiKey",
@@ -24,67 +21,85 @@
       "in": "query"
     }
   },
-  "security": [{"apiKeyHeader": []}, {"apiKeyQuery": []}],
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
   "paths": {
     "/mdToHtml": {
       "post": {
         "description": "Markdown to HTML",
         "operationId": "post-mdtohtml",
         "summary": "Markdown to HTML",
-        "tags": ["nlp", "markdown", "html", "conversion"],
-        "parameters": [{
-          "name": "body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Markdown to HTML Request Body"
+        "tags": [
+          "nlp",
+          "markdown",
+          "html",
+          "conversion"
+        ],
+        "parameters": [
+          {
+            "name": "Text",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
           }
-        }],
-        "consumes": ["text/plain", "text/markdown", "text/html", "text/xhtml"],
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown",
+          "text/html",
+          "text/xhtml"
+        ],
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/Markdown to HTML Response Body"
+              "$ref": "#/definitions/Text"
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["text/html"]
+        "produces": [
+          "text/html"
+        ]
       }
     },
     "/lookup": {
@@ -92,15 +107,22 @@
         "description": "Lookup",
         "operationId": "post-lookup",
         "summary": "Lookup",
-        "tags": ["nlp", "dictionary"],
-        "parameters": [{
-          "name": "lookup Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Lookup Request Body"
+        "tags": [
+          "nlp",
+          "dictionary"
+        ],
+        "parameters": [
+          {
+            "name": "lookup Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Lookup Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -112,52 +134,50 @@
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "404": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/counts": {
@@ -165,15 +185,22 @@
         "description": "Counts",
         "operationId": "post-counts",
         "summary": "Counts",
-        "tags": ["nlp", "regex"],
-        "parameters": [{
-          "name": "counts Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Counts Request Body"
+        "tags": [
+          "nlp",
+          "regex"
+        ],
+        "parameters": [
+          {
+            "name": "counts Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Regex Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -191,40 +218,39 @@
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "enum": ["text/plain"],
                 "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/regexAll": {
@@ -232,20 +258,28 @@
         "description": "Regex All",
         "operationId": "post-regexall",
         "summary": "Regex All",
-        "tags": ["nlp", "regex"],
-        "parameters": [{
-          "name": "Content-Type",
-          "in": "header",
-          "required": true,
-          "type": "string"
-        }, {
-          "name": "regex Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Regex All Request Body"
+        "tags": [
+          "nlp",
+          "regex"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "regex Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Regex Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -255,47 +289,46 @@
               }
             },
             "schema": {
-              "$ref": "#/definitions/Regex All Response Body"
+              "$ref": "#/definitions/Regex Response Body"
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/regex": {
@@ -303,15 +336,22 @@
         "description": "Regex",
         "operationId": "post-regex",
         "summary": "Regex",
-        "tags": ["nlp", "regex"],
-        "parameters": [{
-          "name": "counts Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Regex Request Body"
+        "tags": [
+          "nlp",
+          "regex"
+        ],
+        "parameters": [
+          {
+            "name": "regex Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Regex Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -323,40 +363,39 @@
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       }
     },
     "/natural": {
@@ -364,66 +403,72 @@
         "description": "Natural",
         "operationId": "post-natural",
         "summary": "Natural",
-        "tags": ["nlp", "natural"],
-        "parameters": [{
-          "name": "natural Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Natural Request Body"
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "natural Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Natural Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "examples": {
-              "0": ["Annie", "was", "in", "a", "great", "mood", "that", "day"]
+              "0": "[\r\n  \"Annie\",\r\n  \"was\",\r\n  \"in\",\r\n  \"a\",\r\n  \"great\",\r\n  \"mood\",\r\n  \"that\",\r\n  \"day\"\r\n]"
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "503": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "0",
+          "application/json"
+        ]
       }
     },
     "/compromise": {
@@ -431,50 +476,54 @@
         "description": "Compromise",
         "operationId": "post-compromise",
         "summary": "Compromise",
-        "tags": ["nlp", "compromise"],
-        "parameters": [{
-          "name": "compromise Request Body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Compromise Request Body"
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "compromise Request Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Compromise Request Body"
+            }
           }
-        }],
-        "consumes": ["application/json"],
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Compromise Response Body"
+              "$ref": "#/definitions/Array Of Strings"
             }
           },
           "400": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             }
           },
           "502": {
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             },
             "examples": {
               "text/plain": "Something went wrong"
@@ -484,31 +533,2000 @@
             "description": "",
             "headers": {
               "Content-Type": {
-                "type": "string",
-                "enum": ["text/plain"]
+                "type": "string"
               }
             },
             "schema": {
-              "$ref": "#/definitions/Error Response Body"
+              "$ref": "#/definitions/Error"
             },
             "examples": {
               "text/plain": "Something went wrong"
             }
           }
         },
-        "produces": ["application/json", "text/plain"]
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/verbs": {
+      "post": {
+        "description": "Verbs",
+        "operationId": "verbs",
+        "summary": "Verbs",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/organizations": {
+      "post": {
+        "description": "Organizations",
+        "operationId": "organizations",
+        "summary": "Organizations",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/places": {
+      "post": {
+        "description": "Places",
+        "operationId": "places",
+        "summary": "Places",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/people": {
+      "post": {
+        "description": "People",
+        "operationId": "people",
+        "summary": "People",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/nouns": {
+      "post": {
+        "description": "Nouns",
+        "operationId": "nouns",
+        "summary": "Nouns",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/quotations": {
+      "post": {
+        "description": "Quotations",
+        "operationId": "quotations",
+        "summary": "Quotations",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/phoneNumbers": {
+      "post": {
+        "description": "Phone Numbers",
+        "operationId": "phoneNumbers",
+        "summary": "Phone Numbers",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/urls": {
+      "post": {
+        "description": "Urls",
+        "operationId": "urls",
+        "summary": "Urls",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/contractions": {
+      "post": {
+        "description": "Contractions",
+        "operationId": "contractions",
+        "summary": "Contractions",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/acronyms": {
+      "post": {
+        "description": "Acronyms",
+        "operationId": "acronyms",
+        "summary": "Acronyms",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/topics": {
+      "post": {
+        "description": "Topics",
+        "operationId": "topics",
+        "summary": "Topics",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/hashTags": {
+      "post": {
+        "description": "Hash Tags",
+        "operationId": "hashTags",
+        "summary": "Hash Tags",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/possessives": {
+      "post": {
+        "description": "Possessives",
+        "operationId": "possessives",
+        "summary": "Possessives",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/conjunctions": {
+      "post": {
+        "description": "Conjunctions",
+        "operationId": "conjunctions",
+        "summary": "Conjunctions",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/abbreviations": {
+      "post": {
+        "description": "Abbreviations",
+        "operationId": "abbreviations",
+        "summary": "Abbreviations",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/clauses": {
+      "post": {
+        "description": "Clauses",
+        "operationId": "clauses",
+        "summary": "Clauses",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/adverbs": {
+      "post": {
+        "description": "Adverbs",
+        "operationId": "adverbs",
+        "summary": "Adverbs",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/numbers": {
+      "post": {
+        "description": "Numbers",
+        "operationId": "numbers",
+        "summary": "Numbers",
+        "tags": [
+          "nlp",
+          "compromise"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "default": "text/plain",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/sentiment": {
+      "post": {
+        "description": "Sentiment",
+        "operationId": "sentiment",
+        "summary": "Sentiment",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Number"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        }
+      }
+    },
+    "/tokenizeAndStem": {
+      "post": {
+        "description": "Tokenize and Stem",
+        "operationId": "tokenizeAndStem",
+        "summary": "Tokenize and Stem",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "enum": [
+              "text/plain",
+              "text/markdown"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        }
+      }
+    },
+    "/stem": {
+      "post": {
+        "description": "Stem",
+        "operationId": "stem",
+        "summary": "Stem",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "enum": [
+              "text/plain"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        }
+      }
+    },
+    "/tokenize": {
+      "post": {
+        "description": "Tokenize",
+        "operationId": "tokenize",
+        "summary": "Tokenize",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown"
+        ],
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string",
+            "enum": [
+              "text/plain",
+              "text/markdown"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Text"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Array Of Strings"
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          },
+          "503": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "examples": {
+              "text/plain": "Something went wrong"
+            }
+          }
+        }
       }
     }
   },
   "definitions": {
-    "Error Response Body": {
+    "Error": {
       "minLength": 1,
       "example": "something went wrong",
       "type": "string",
       "title": "Error Response"
     },
+    "Text": {
+      "type": "string",
+      "minLength": 1,
+      "example": "During the Second World War, Turing worked for the Government Code and Cypher School (GC&CS) at Bletchley Park, Britain's codebreaking centre that produced Ultra intelligence. For a time he led Hut 8, the section that was responsible for German naval cryptanalysis. Here, he devised a number of techniques for speeding the breaking of German ciphers, including improvements to the pre-war Polish bombe method, an electromechanical machine that could find settings for the Enigma machine."
+    },
+    "Number": {
+      "type": "number"
+    },
     "Compromise Request Body": {
-      "required": ["text", "type"],
+      "required": [
+        "text",
+        "type"
+      ],
       "example": {
         "text": "Mr Turning was a very good student.",
         "type": "people"
@@ -523,55 +2541,55 @@
         },
         "type": {
           "type": "string",
-          "enum": ["abbreviations", "acronyms", "adverbs", "atMentions", "clauses", "conjunctions", "contractions", "emails", "hashTags", "hyphenated", "lists", "money", "nouns", "numbers", "organizations", "parenthesis", "people", "phoneNumbers", "places", "possessives", "prepositions", "pronouns", "quotations", "terms", "topics", "urls", "verbs"]
+          "enum": [
+            "abbreviations",
+            "acronyms",
+            "adverbs",
+            "atMentions",
+            "clauses",
+            "conjunctions",
+            "contractions",
+            "emails",
+            "hashTags",
+            "hyphenated",
+            "lists",
+            "money",
+            "nouns",
+            "numbers",
+            "organizations",
+            "parenthesis",
+            "people",
+            "phoneNumbers",
+            "places",
+            "possessives",
+            "prepositions",
+            "pronouns",
+            "quotations",
+            "terms",
+            "topics",
+            "urls",
+            "verbs"
+          ]
         }
       }
     },
-    "Compromise Response Body": {
+    "Array Of Strings": {
       "title": "Array of Strings",
       "type": "array",
-      "example": ["mary", "susan", "annie"],
+      "example": [
+        "mary",
+        "susan",
+        "annie"
+      ],
       "items": {
         "type": "string",
         "minLength": 1
       }
     },
-    "Regex All Request Body": {
-      "required": ["text", "regex"],
-      "type": "object",
-      "additionalProperties": false,
-      "example": {
-        "text": "abaddb aba ab",
-        "regex": "a+",
-        "flags": "i"
-      },
-      "properties": {
-        "text": {
-          "maxLength": 100000,
-          "type": "string",
-          "minLength": 1
-        },
-        "regex": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "flags": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "[a-z]+",
-          "uniqueItems": true
-        }
-      }
-    },
-    "Reqex All Response Body": {
-      "type": "array",
-      "example": ["a", "b", "c"],
-      "items": {
-        "type": "string"
-      }
-    },
     "Lookup Request Body": {
-      "required": ["word"],
+      "required": [
+        "word"
+      ],
       "type": "object",
       "example": {
         "word": "cat"
@@ -591,7 +2609,9 @@
         "definition": "flap  n. (also cat door) small swinging flap in an outer door, for a cat to pass in and out."
       },
       "additionalProperties": false,
-      "required": ["definition"],
+      "required": [
+        "definition"
+      ],
       "properties": {
         "definition": {
           "type": "string"
@@ -599,7 +2619,10 @@
       }
     },
     "Regex Request Body": {
-      "required": ["text", "regex"],
+      "required": [
+        "text",
+        "regex"
+      ],
       "type": "object",
       "additionalProperties": false,
       "example": {
@@ -627,71 +2650,65 @@
     },
     "Reqex Response Body": {
       "type": "array",
-      "example": ["a", "b", "c"],
+      "example": [
+        "a",
+        "b",
+        "c"
+      ],
       "items": {
         "type": "string"
       }
     },
-    "Counts Request Body": {
-      "required": ["text", "regex"],
-      "example": {
-        "text": "abaddb aba ab",
-        "regex": "a+"
-      },
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "text": {
-          "maxLength": 100000,
-          "type": "string",
-          "minLength": 1
-        },
-        "regex": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "flags": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "[a-z]+",
-          "uniqueItems": true
-        }
-      }
-    },
     "Counts Response Body": {
       "type": "object",
-      "example": {"a":  22, "b":  44},
+      "example": {
+        "a": 22,
+        "b": 44
+      },
       "additionalProperties": true,
       "properties": {}
     },
-    "Markdown to HTML Request Body": {
-      "example": "some",
-      "type": "string",
-      "minLength": 1
-    },
-    "Markdown to HTML Response Body": {
-      "example": "<p>some</p>",
-      "type": "string"
-    },
     "Natural Request Body": {
       "type": "object",
-      "required": ["action"],
+      "required": [
+        "action"
+      ],
       "example": {
         "text": "Annie was in a great mood that day.",
         "action": "tokenize"
       },
       "properties": {
         "action": {
-          "enum": ["distance", "match", "sentiment", "stem", "tokenize", "tokenizeAndStem"]
+          "enum": [
+            "distance",
+            "match",
+            "sentiment",
+            "stem",
+            "tokenize",
+            "tokenizeAndStem"
+          ]
         },
         "stemmer": {
-          "enum": ["PorterStemmer", "LancasterStemmer"]
+          "enum": [
+            "PorterStemmer",
+            "LancasterStemmer"
+          ]
         },
         "metric": {
-          "enum": ["DamerauLevenshteinDistance", "DiceCoefficient", "JaroWinklerDistance", "LevensteinDistance"]
+          "enum": [
+            "DamerauLevenshteinDistance",
+            "DiceCoefficient",
+            "JaroWinklerDistance",
+            "LevensteinDistance"
+          ]
         },
         "tokenizer": {
-          "enum": ["OrthographyTokenizer", "TreebankWordTokenizer", "WordPunctTokenizer", "WordTokenizer"]
+          "enum": [
+            "OrthographyTokenizer",
+            "TreebankWordTokenizer",
+            "WordPunctTokenizer",
+            "WordTokenizer"
+          ]
         },
         "text": {
           "type": "string",
@@ -706,11 +2723,12 @@
           "minLength": 1
         }
       }
-    },
-    "Text Plain Header": {
-      "type": "string",
-      "enum": ["text/plain"]
     }
   },
-  "tags": [{"name": "nlp"}]
+  "tags": [
+    {
+      "name": "nlp",
+      "description": "nlp"
+    }
+  ]
 }

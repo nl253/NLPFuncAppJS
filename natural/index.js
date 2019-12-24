@@ -1,18 +1,3 @@
-const {
-  TreebankWordTokenizer,
-  LancasterStemmer,
-  OrthographyTokenizer,
-  WordPunctTokenizer,
-  DiceCoefficient,
-  LevenshteinDistance,
-  DamerauLevenshteinDistance,
-  JaroWinklerDistance,
-  WordTokenizer,
-  SentimentAnalyzer,
-  PorterStemmer,
-  // Spellcheck,
-} = require('natural');
-
 const { succeed, fail, validateJSON, logStart } = require('../lib');
 
 const schema = {
@@ -55,7 +40,7 @@ const schema = {
     },
     text1: {
       type: 'string',
-      "minLength": 1
+      minLength: 1
     },
     text2: {
       type: 'string',
@@ -63,19 +48,10 @@ const schema = {
     },
     text: {
       type: 'string',
-      "minLength": 1
+      minLength: 1
     },
   }
 };
-
-// /**
-//  * @param {string} word
-//  * @return {string[]}
-//  */
-// const spellcheck = word => {
-//   const checker = new Spellcheck(require('./dict'));
-//   return checker.isCorrect(word) ? [] : checker.getCorrections(word, 2);
-// };
 
 /**
  * @param {string} txt
@@ -83,6 +59,12 @@ const schema = {
  * @return {string[]}
  */
 const tokenize = (txt, tokenizer = 'WordTokenizer') => {
+  const {
+    TreebankWordTokenizer,
+    OrthographyTokenizer,
+    WordPunctTokenizer,
+    WordTokenizer,
+  } = require('natural');
   switch (tokenizer) {
     case 'OrthographyTokenizer':
       return new OrthographyTokenizer().tokenize(txt);
@@ -103,8 +85,10 @@ const tokenize = (txt, tokenizer = 'WordTokenizer') => {
 const stem = (word, stemmer = 'PorterStemmer') => {
   switch (stemmer) {
     case 'LancasterStemmer':
+      const {LancasterStemmer} = require('natural');
       return LancasterStemmer.stem(word);
     case 'PorterStemmer':
+      const {PorterStemmer} = require('natural');
       return PorterStemmer.stem(word);
   }
 };
@@ -112,9 +96,20 @@ const stem = (word, stemmer = 'PorterStemmer') => {
 /**
  * @param {string} txt
  * @param {'WordPunctTokenizer'|'WordTokenizer'|'TreebankWordTokenizer'|'WordTokenizer'|'OrthographyTokenizer'} [tokenizer]
+ * @param {'PorterStemmer'|'LancasterStemmer'} [stemmer]
  * @return {number}
  */
-const sentiment = (txt, tokenizer = 'WordTokenizer') => new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
+const sentiment = (txt, tokenizer = 'WordTokenizer', stemmer = 'PorterStemmer') => {
+  const {SentimentAnalyzer} = require('natural');
+  switch (stemmer) {
+    case 'LancasterStemmer':
+      const {LancasterStemmer} = require('natural');
+      return new SentimentAnalyzer('English', LancasterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
+    case 'PorterStemmer':
+      const {PorterStemmer} = require('natural');
+      return new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
+  }
+};
 
 /**
  * @param {string} txt
@@ -123,10 +118,14 @@ const sentiment = (txt, tokenizer = 'WordTokenizer') => new SentimentAnalyzer('E
  * @return {string[]}
  */
 const tokenizeAndStem = (txt, tokenizer = 'WordTokenizer', stemmer = 'PorterStemmer') => {
-  const Stemmer = stemmer === 'PorterStemmer'
-    ? new PorterStemmer()
-    : new LancasterStemmer();
-  return tokenize(txt, tokenizer).map(w => Stemmer.stem(w));
+  switch (stemmer) {
+    case 'PorterStemmer':
+      const {PorterStemmer} = require('natural');
+      return tokenize(txt, tokenizer).map(w => PorterStemmer.stem(w));
+    case 'LancasterStemmer':
+      const {LancasterStemmer} = require('natural');
+      return tokenize(txt, tokenizer).map(w => LancasterStemmer.stem(w));
+  }
 };
 
 /**
@@ -138,12 +137,16 @@ const tokenizeAndStem = (txt, tokenizer = 'WordTokenizer', stemmer = 'PorterStem
 const distance = (s1, s2, metric = 'LevenshteinDistance') => {
   switch (metric) {
     case 'LevenshteinDistance':
+      const {LevenshteinDistance} = require('natural');
       return LevenshteinDistance(s1, s2);
     case 'DamerauLevenshteinDistance':
+      const {DamerauLevenshteinDistance} = require('natural');
       return DamerauLevenshteinDistance(s1, s2);
     case 'JaroWinklerDistance':
+      const {JaroWinklerDistance} = require('natural');
       return JaroWinklerDistance(s1, s2);
     case 'DiceCoefficient':
+      const {DiceCoefficient} = require('natural');
       return DiceCoefficient(s1, s2);
   }
 };
@@ -153,7 +156,10 @@ const distance = (s1, s2, metric = 'LevenshteinDistance') => {
  * @param {string} s2
  * @return {{substring: string, distance: number}}
  */
-const match = (s1, s2) => LevenshteinDistance(s1, s2, {search: true});
+const match = (s1, s2) => {
+  const {LevenshteinDistance} = require('natural');
+  return LevenshteinDistance(s1, s2, {search: true});
+};
 
 /**
  * @param {{res: *, log: Function<...*, void>}} context
@@ -185,10 +191,6 @@ module.exports = async (context, req) => {
       case 'tokenizeAndStem': {
         return succeed(context, tokenizeAndStem(req.body.text, req.body.tokenizer, req.body.stemmer));
       }
-      // XXX SLOW
-      // case 'spellcheck': {
-      //   return succeed(context, spellcheck(req.body.text));
-      // }
     }
   } catch (e) {
     return fail(context, e.message, e.code)

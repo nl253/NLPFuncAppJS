@@ -48,7 +48,11 @@ module.exports = async (context, req) => {
   logStart(context);
   try {
     await validateJSON(context, schema);
-    return succeed(context, getCounts(req.body.text, req.body.regex ? new RegExp(req.body.regex, req.body.flags || 'g') : /\w+/g));
+    const flags = req.body.flags || 'g';
+    const regexFallback = /\w+/g;
+    const regex = req.body.regex ? (new RegExp(req.body.regex, flags)) : regexFallback;
+    const counts = getCounts(req.body.text, regex);
+    return succeed(context, counts);
   } catch (e) {
     return fail(context, e.message, e.code);
   }
