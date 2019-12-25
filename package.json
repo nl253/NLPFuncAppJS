@@ -47,7 +47,7 @@
     "prestart": "npm run build && func extensions install",
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",
-    "test:integration": "npx newman run --timeout 60000 --timeout-request 10000 --insecure  ./postman_collection.json",
+    "test:integration": "npx newman run postman_collection.json",
     "test": "echo \"No tests yet...\""
   },
   "description": "",
