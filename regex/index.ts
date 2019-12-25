@@ -2,7 +2,7 @@ import {fail, logStart, succeed, validateJSON} from '../lib';
 
 import * as schema from './schema';
 
-module.exports = async function (context, req) {
+export default async function(context, req) {
   logStart(context);
 
   try {
@@ -14,4 +14,4 @@ module.exports = async function (context, req) {
   } catch (e) {
     return fail(context, e.message, e.code);
   }
-};
+}

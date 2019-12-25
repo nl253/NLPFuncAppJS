@@ -54,7 +54,7 @@ const tryDefine = async (context, word) => {
  * @param {{body: {word: string}}} req
  * @return {Promise<{message: string, status: number}|{definition: string}>}
  */
-module.exports = async (context, req) => {
+export default async (context, req) => {
   logStart(context);
   try {
     await validateJSON(context, schema);
@@ -62,4 +62,4 @@ module.exports = async (context, req) => {
   } catch (e) {
     return fail(context, e.message, e.code)
   }
-};
+}

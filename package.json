@@ -35,6 +35,7 @@
     "counts/*.js",
     "lookup/*.js",
     "mdToHtml/*",
+    "define/*",
     "natural/*.js",
     "regex/*.js",
     "regexAll/*.js"

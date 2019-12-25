@@ -1,14 +1,14 @@
 export default {
-  "$id": "compromise",
-  "type": "object",
-  "required": ["text", "type"],
-  "properties": {
-    "text": {
-      "type": "string",
-      "minLength": 1
+  $id: "compromise",
+  type: "object",
+  required: ["text", "type"],
+  properties: {
+    text: {
+      type: "string",
+      minLength: 1
     },
-    "type": {
-      "enum": [
+    type: {
+      enum: [
         "abbreviations",
         "acronyms",
         "adverbs",

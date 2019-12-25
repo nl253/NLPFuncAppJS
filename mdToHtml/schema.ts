@@ -1,5 +1,5 @@
 export default {
-  "$id": "mdToHtml",
-  "type": "string",
-  "minLength": 1
+  $id: "mdToHtml",
+  type: "string",
+  minLength: 1
 };

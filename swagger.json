@@ -6,8 +6,9 @@
     "description": "Natural Language Processing API."
   },
   "host": "nlp-apim.azure-api.net",
-  "schemes": [
-    "https"
+  "produces": [
+    "application/json",
+    "text/plain"
   ],
   "securityDefinitions": {
     "apiKeyHeader": {
@@ -23,12 +24,146 @@
   },
   "security": [
     {
-      "apiKeyHeader": []
+      "apiKeyHeader": [
+      ]
     },
     {
       "apiKeyQuery": []
     }
   ],
+  "responses": {
+    "Number": {
+      "description": "",
+      "examples": {
+        "application/json": 0.123
+      },
+      "schema": {
+        "$ref": "#/definitions/Number"
+      }
+    },
+    "Compromise": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Array Of Strings"
+      },
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"]
+        }
+      },
+      "examples": {
+        "application/json": ["Tom", "Amy", "John"]
+      }
+    },
+    "Natural": {
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"]
+        }
+      },
+      "description": "",
+      "examples": {
+        "application/json": ["Tom", "was", "in", "a", "hurry"]
+      }
+    },
+    "Lookup": {
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"]
+        }
+      },
+      "examples": {
+        "application/json": {
+          "definition": "Allows the definition of a security scheme that can be used by the operations."
+        }
+      },
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Lookup Response Body"
+      }
+    },
+    "Html": {
+      "examples": {
+        "text/html": "<p>some</p>"
+      },
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["text/html"]
+        }
+      },
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Text"
+      }
+    },
+    "Text": {
+      "examples": {
+        "text/plain": "alslkedfj alsdfaslkd falskdf kasdf "
+      },
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["text/plain"]
+        }
+      },
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Text"
+      }
+    },
+    "Counts": {
+      "description": "",
+      "examples": {
+        "application/json": {
+          "ab": 2,
+          "bcd": 34
+        }
+      },
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"]
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Counts Response Body"
+      }
+    },
+    "Regex": {
+      "description": "",
+      "headers": {
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"]
+        }
+      },
+      "examples": {
+        "application/json": ["mary", "tom", "susan"]
+      },
+      "schema": {
+        "$ref": "#/definitions/Regex Response Body"
+      }
+    },
+    "Error": {
+      "description": "",
+      "examples": {
+        "200": "something went wrong"
+      },
+      "schema": {
+        "$ref": "#/definitions/Error"
+      },
+      "headers": {
+        "Content-Type": {
+          "enum": ["text/plain"],
+          "type": "string"
+        }
+      }
+    }
+  },
   "paths": {
     "/mdToHtml": {
       "post": {
@@ -43,7 +178,7 @@
         ],
         "parameters": [
           {
-            "name": "Text",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -58,47 +193,62 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Text"
-            }
+            "$ref": "#/responses/Html"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
           "text/html"
+        ]
+      }
+    },
+    "/define/{word}": {
+      "get": {
+        "description": "Define",
+        "operationId": "get-define",
+        "summary": "Define",
+        "tags": [
+          "nlp",
+          "dictionary"
+        ],
+        "parameters": [
+          {
+            "name": "word",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Text"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "404": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json"
         ]
       }
     },
@@ -125,54 +275,19 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Lookup Response Body"
-            }
+            "$ref": "#/responses/Lookup"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "404": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -203,49 +318,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Counts Response Body"
-            },
-            "examples": {
-              "application/json": {
-                "abc": 22,
-                "de": 33
-              }
-            }
+            "$ref": "#/responses/Counts"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -264,12 +346,6 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "regex Request Body",
             "in": "body",
             "schema": {
@@ -282,48 +358,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Regex Response Body"
-            }
+            "$ref": "#/responses/Regex"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -342,7 +386,7 @@
         ],
         "parameters": [
           {
-            "name": "regex Request Body",
+            "name": "Regex Request Body",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Regex Request Body"
@@ -354,43 +398,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Regex Response Body"
-            }
+            "$ref": "#/responses/Regex"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -421,48 +438,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "examples": {
-              "0": "[\r\n  \"Annie\",\r\n  \"was\",\r\n  \"in\",\r\n  \"a\",\r\n  \"great\",\r\n  \"mood\",\r\n  \"that\",\r\n  \"day\"\r\n]"
-            }
+            "$ref": "#/responses/Natural"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -494,54 +479,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -561,16 +508,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -579,58 +517,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -650,16 +551,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -668,58 +560,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -739,16 +594,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -757,58 +603,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -828,16 +637,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -846,58 +646,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -917,16 +680,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -935,58 +689,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1006,16 +723,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1024,58 +732,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1095,16 +766,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1113,58 +775,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1184,16 +809,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1202,58 +818,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1273,16 +852,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1291,58 +861,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1362,16 +895,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1380,58 +904,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1451,16 +938,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1469,58 +947,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1540,16 +981,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1558,58 +990,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1629,16 +1024,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1647,236 +1033,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/plain"
-        ]
-      }
-    },
-    "/conjunctions": {
-      "post": {
-        "description": "Conjunctions",
-        "operationId": "conjunctions",
-        "summary": "Conjunctions",
-        "tags": [
-          "nlp",
-          "compromise"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Text"
-            }
-          }
-        ],
-        "consumes": [
-          "text/plain",
-          "text/markdown"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
-          },
-          "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          },
-          "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/plain"
-        ]
-      }
-    },
-    "/abbreviations": {
-      "post": {
-        "description": "Abbreviations",
-        "operationId": "abbreviations",
-        "summary": "Abbreviations",
-        "tags": [
-          "nlp",
-          "compromise"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Text"
-            }
-          }
-        ],
-        "consumes": [
-          "text/plain",
-          "text/markdown"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
-          },
-          "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          },
-          "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1896,16 +1067,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -1914,58 +1076,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -1985,16 +1110,7 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -2003,58 +1119,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -2063,27 +1142,18 @@
         ]
       }
     },
-    "/numbers": {
+    "/tokenize": {
       "post": {
-        "description": "Numbers",
-        "operationId": "numbers",
-        "summary": "Numbers",
+        "description": "Tokenize",
+        "operationId": "tokenize",
+        "summary": "Tokenize",
         "tags": [
           "nlp",
-          "compromise"
+          "natural"
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "default": "text/plain",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
@@ -2092,58 +1162,21 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Compromise"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         },
         "produces": [
@@ -2163,21 +1196,14 @@
         ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
         "produces": [
           "application/json",
           "text/plain"
         ],
         "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "enum": [
-              "text/plain"
-            ]
-          },
           {
             "name": "text",
             "in": "body",
@@ -2188,54 +1214,16 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Number"
-            }
+            "$ref": "#/responses/Number"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
         }
       }
@@ -2249,84 +1237,38 @@
           "nlp",
           "natural"
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown"
-        ],
-        "produces": [
-          "application/json",
-          "text/plain"
-        ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "enum": [
-              "text/plain",
-              "text/markdown"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Text"
+              "$ref": "#/definitions/Compromise"
             }
           }
+        ],
+        "consumes": [
+          "text/plain",
+          "text/markdown",
+          "text/*"
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
+            "$ref": "#/responses/Text"
           },
           "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "$ref": "#/responses/Error"
           },
           "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           },
           "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
+            "$ref": "#/responses/Error"
           }
-        }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
       }
     },
     "/stem": {
@@ -2338,172 +1280,38 @@
           "nlp",
           "natural"
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown"
-        ],
-        "produces": [
-          "application/json",
-          "text/plain"
-        ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "enum": [
-              "text/plain"
-            ]
-          },
-          {
-            "name": "body",
+            "name": "text",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/Text"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Text"
-            }
-          },
-          "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          },
-          "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          }
-        }
-      }
-    },
-    "/tokenize": {
-      "post": {
-        "description": "Tokenize",
-        "operationId": "tokenize",
-        "summary": "Tokenize",
-        "tags": [
-          "nlp",
-          "natural"
-        ],
         "consumes": [
           "text/plain",
-          "text/markdown"
+          "text/markdown",
+          "text/*"
         ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Text"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
         "produces": [
           "application/json",
           "text/plain"
-        ],
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string",
-            "enum": [
-              "text/plain",
-              "text/markdown"
-            ]
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Text"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Array Of Strings"
-            }
-          },
-          "400": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "502": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          },
-          "503": {
-            "description": "",
-            "headers": {
-              "Content-Type": {
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "examples": {
-              "text/plain": "Something went wrong"
-            }
-          }
-        }
+        ]
       }
     }
   },
@@ -2648,7 +1456,7 @@
         }
       }
     },
-    "Reqex Response Body": {
+    "Regex Response Body": {
       "type": "array",
       "example": [
         "a",

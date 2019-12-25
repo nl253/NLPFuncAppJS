@@ -115,7 +115,7 @@ const match = (s1, s2) => {
  * @param {{originalUrl: string, body: {action: ('stem'|'tokenize'|'match'|'tokenizeAndStem'|'distance'|'natural'|'sentiment'), text: string, text1: string, text2: string, metric: ('LevenshteinDistance'|'DamerauLevenshteinDistance'|'JaroWinklerDistance'|'DiceCoefficient'), stemmer: ('PorterStemmer'|'LancasterStemmer'), tokenizer: ('WordPunctTokenizer'|'WordTokenizer'|'TreebankWordTokenizer'|'WordTokenizer'|'OrthographyTokenizer')}}} req
  * @return {Promise<void>}
  */
-module.exports = async (context, req) => {
+export default async (context, req) => {
   logStart(context);
 
   try {
@@ -144,4 +144,4 @@ module.exports = async (context, req) => {
   } catch (e) {
     return fail(context, e.message, e.code)
   }
-};
+}
