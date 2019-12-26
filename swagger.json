@@ -68,23 +68,6 @@
         "application/json": ["Tom", "was", "in", "a", "hurry"]
       }
     },
-    "Lookup": {
-      "headers": {
-        "Content-Type": {
-          "type": "string",
-          "enum": ["application/json"]
-        }
-      },
-      "examples": {
-        "application/json": {
-          "definition": "Allows the definition of a security scheme that can be used by the operations."
-        }
-      },
-      "description": "",
-      "schema": {
-        "$ref": "#/definitions/Lookup Response Body"
-      }
-    },
     "Html": {
       "examples": {
         "text/html": "<p>some</p>"
@@ -233,49 +216,6 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Text"
-          },
-          "400": {
-            "$ref": "#/responses/Error"
-          },
-          "404": {
-            "$ref": "#/responses/Error"
-          },
-          "502": {
-            "$ref": "#/responses/Error"
-          },
-          "503": {
-            "$ref": "#/responses/Error"
-          }
-        },
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/lookup": {
-      "post": {
-        "description": "Lookup",
-        "operationId": "post-lookup",
-        "summary": "Lookup",
-        "tags": [
-          "nlp",
-          "dictionary"
-        ],
-        "parameters": [
-          {
-            "name": "lookup Request Body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Lookup Request Body"
-            }
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/Lookup"
           },
           "400": {
             "$ref": "#/responses/Error"
@@ -1392,38 +1332,6 @@
       "items": {
         "type": "string",
         "minLength": 1
-      }
-    },
-    "Lookup Request Body": {
-      "required": [
-        "word"
-      ],
-      "type": "object",
-      "example": {
-        "word": "cat"
-      },
-      "additionalProperties": false,
-      "properties": {
-        "word": {
-          "maxLength": 50,
-          "type": "string",
-          "minLength": 1
-        }
-      }
-    },
-    "Lookup Response Body": {
-      "type": "object",
-      "example": {
-        "definition": "flap  n. (also cat door) small swinging flap in an outer door, for a cat to pass in and out."
-      },
-      "additionalProperties": false,
-      "required": [
-        "definition"
-      ],
-      "properties": {
-        "definition": {
-          "type": "string"
-        }
       }
     },
     "Regex Request Body": {
