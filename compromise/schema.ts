@@ -5,7 +5,7 @@ export default {
   properties: {
     text: {
       type: "string",
-      minLength: 1
+      minLength: 1,
     },
     type: {
       enum: [
@@ -31,8 +31,8 @@ export default {
         "terms",
         "topics",
         "urls",
-        "verbs"
-      ]
-    }
-  }
+        "verbs",
+      ],
+    },
+  },
 };

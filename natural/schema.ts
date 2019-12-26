@@ -11,42 +11,42 @@ export default {
         "sentiment",
         "stem",
         "tokenize",
-        "tokenizeAndStem"
-      ]
+        "tokenizeAndStem",
+      ],
     },
     stemmer: {
       enum: [
         "PorterStemmer",
-        "LancasterStemmer"
-      ]
+        "LancasterStemmer",
+      ],
     },
     metric: {
       enum: [
         "DamerauLevenshteinDistance",
         "DiceCoefficient",
         "JaroWinklerDistance",
-        "LevensteinDistance"
-      ]
+        "LevensteinDistance",
+      ],
     },
     tokenizer: {
       enum: [
         "OrthographyTokenizer",
         "TreebankWordTokenizer",
         "WordPunctTokenizer",
-        "WordTokenizer"
-      ]
+        "WordTokenizer",
+      ],
     },
     text1: {
       type: "string",
-      minLength: 1
+      minLength: 1,
     },
     text2: {
       type: "string",
-      minLength: 1
+      minLength: 1,
     },
     text: {
       type: "string",
-      minLength: 1
-    }
-  }
+      minLength: 1,
+    },
+  },
 };

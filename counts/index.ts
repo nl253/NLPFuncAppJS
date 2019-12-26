@@ -1,27 +1,19 @@
-import {fail, logStart, succeed, validateJSON} from '../lib';
+import {fail, logStart, Response, succeed, validateJSON} from "../lib";
 
-import * as schema from './schema';
+import {Context, HttpRequest} from "@azure/functions";
+import * as schema from "./schema";
 
-/**
- * @param {RegExp} regex
- * @param {string} str
- * @returns {string[]} results
- */
-const findAll = (str, regex) => {
+const findAll = (str: string, regex: RegExp): string[] => {
   const results = [];
   let match;
+  // tslint:disable-next-line:no-conditional-assignment
   while ((match = regex.exec(str)) !== null) {
     results.push(match[0]);
   }
   return results;
 };
 
-/**
- * @param {string} text
- * @param {RegExp} regex
- * @return {Record<string, string>}
- */
-const getCounts = (text, regex) => {
+const getCounts = (text: string, regex: RegExp): Record<string, number> => {
   const counts = {};
   for (const w of findAll(text, regex)) {
     counts[w] = (counts[w] || 0) + 1;
@@ -29,11 +21,11 @@ const getCounts = (text, regex) => {
   return counts;
 };
 
-export default async (context, req) => {
+export default async (context: Context, req: HttpRequest): Promise<Response> => {
   logStart(context);
   try {
     await validateJSON(context, schema);
-    const flags = Array.from(new Set(Array.from((req.body.flags || '') + 'g'))).join('');
+    const flags = Array.from(new Set(Array.from((req.body.flags || "") + "g"))).join("");
     const regexFallback = /\w+/g;
     const regex = req.body.regex ? (new RegExp(req.body.regex, flags)) : regexFallback;
     const counts = getCounts(req.body.text, regex);
@@ -41,4 +33,4 @@ export default async (context, req) => {
   } catch (e) {
     return fail(context, e.message, e.code);
   }
-}
+};

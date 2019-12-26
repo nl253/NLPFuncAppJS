@@ -1,4 +1,4 @@
-import {lexer, parser, Renderer, setOptions} from 'marked';
+import {lexer, parser, Renderer, setOptions} from "marked";
 
 import {
   CACHE_HEADER,
@@ -7,31 +7,32 @@ import {
   logStart,
   succeed,
   validateJSON,
-} from '../lib';
+} from "../lib";
 
-import * as schema from './schema';
+import {Context, HttpRequest} from "@azure/functions";
+import * as schema from "./schema";
 
 setOptions({
-  renderer: new Renderer(),
-  highlight: code => require('highlight.js').highlightAuto(code).value,
-  pedantic: false,
-  gfm: true,
-  silent: true,
-  headerIds: false,
-  mangle: true,
   breaks: true,
+  gfm: true,
+  headerIds: false,
+  highlight: (code) => require("highlight.js").highlightAuto(code).value,
+  mangle: true,
+  pedantic: false,
+  renderer: new Renderer(),
   sanitize: false,
+  silent: true,
   smartLists: true,
   smartypants: true,
   xhtml: false,
 });
 
-export default async (context, req) => {
+export default async (context: Context, req: HttpRequest): Promise<Response> => {
   logStart(context);
   try {
     await validateJSON(context, schema);
-    return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER })
+    return succeed(context, parser(lexer(req.body)), { ...HTML_HEADER, ...CACHE_HEADER });
   } catch (e) {
     return fail(context, e.message, e.code);
   }
-}
+};

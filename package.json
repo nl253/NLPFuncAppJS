@@ -8,7 +8,7 @@
   },
   "bugs": {
     "email": "norbertlogiewa96@gmail.com",
-    "url": "https://github.com/nl253/NLPFuncAppJS/issues"
+    "url": "https://github.com/nl253/NLPFuncApp/issues"
   },
   "version": "1.0.0",
   "engines": {
@@ -26,21 +26,10 @@
   "directories": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/nl253/NLPFuncAppJS"
+    "url": "https://github.com/nl253/NLPFuncApp"
   },
-  "homepage": "https://github.com/nl253/NLPFuncAppJS",
-  "files": [
-    "*.js",
-    "compromise/*.js",
-    "counts/*.js",
-    "lookup/*.js",
-    "mdToHtml/*",
-    "define/*",
-    "natural/*.js",
-    "regex/*.js",
-    "regexAll/*.js"
-  ],
-  "readme": "https://github.com/nl253/NLPFuncAppJS/blob/master/README.md",
+  "homepage": "https://github.com/nl253/NLPFuncApp",
+  "readme": "https://github.com/nl253/NLPFuncApp/blob/master/README.md",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
@@ -48,11 +37,12 @@
     "prestart": "npm run build && func extensions install",
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",
-    "test:integration": "npx newman run postman_collection.json",
+    "test:integration": "npx newman run postman_collection.json -e postman_environment.json",
     "test": "echo \"No tests yet...\""
   },
   "description": "",
   "devDependencies": {
+    "tslint": "^5.20.1",
     "@azure/functions": "^1.0.3",
     "@types/node": "^13.1.0",
     "newman": "^4.5.7",
@@ -60,10 +50,10 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "highlight.js": "^9.17.1",
     "marked": "^0.8.0",
     "ajv": "^6.10.2",
     "compromise": "^11.14.2",
-    "highlight.js": "^9.17.1",
     "html-to-text": "^5.1.1",
     "natural": "^0.6.3"
   }

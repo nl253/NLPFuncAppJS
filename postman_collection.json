@@ -4125,19 +4125,6 @@
 			}
 		}
 	],
-	"variable": [
-		{
-			"id": "f5152318-35f8-42f4-bd05-290a2485d622",
-			"key": "baseUrl",
-			"value": "https://nlp-apim.azure-api.net",
-			"type": "string"
-		},
-		{
-			"id": "a218e2a9-e673-41c5-9fe1-a1c049cded73",
-			"key": "apiKey",
-			"value": "0abba83332be4350a9c4eec56aea0608",
-			"type": "string"
-		}
-	],
+	"variable": [],
 	"protocolProfileBehavior": {}
 }

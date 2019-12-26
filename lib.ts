@@ -1,19 +1,23 @@
-import * as Ajv from 'ajv';
+import {Context} from "@azure/functions";
+import * as Ajv from "ajv";
+
+type Headers = Record<string, string>;
+type Response = any;
 
 const JSON_HEADER = {
-  'Content-Type': 'application/json',
+  "Content-Type": "application/json",
 };
 
 const TEXT_HEADER = {
-  'Content-Type': 'text/plain',
+  "Content-Type": "text/plain",
 };
 
 const HTML_HEADER = {
-  'Content-Type': 'text/html',
+  "Content-Type": "text/html",
 };
 
 const CACHE_HEADER = {
-  'Cache-Control': 'private, immutable',
+  "Cache-Control": "private, immutable",
 };
 
 const HTTP_ERR = {
@@ -24,42 +28,33 @@ const HTTP_ERR = {
 class APIError extends Error {
   public readonly code: number;
 
-  constructor(msg = 'something went wrong', code = HTTP_ERR.USER_ERR) {
+  constructor(msg: string = "something went wrong", code: number = HTTP_ERR.USER_ERR) {
     super(msg);
     this.code = code;
   }
 }
 
-const logStart = (context) => {
-  context.log(context, {depth: 10});
-  context.log('[Node.js HTTP %s FuncApp] %s', context.req.method, context.req.originalUrl);
-  context.log('body %s', context.req.body ? JSON.stringify(context.req.body).substr(0, 200) : 'undefined');
-  context.log('query %s', JSON.stringify(context.req.query).substr(0, 200));
+const logStart = (context: Context): void => {
+  context.log("[Node.js HTTP %s FuncApp] %s", context.req.method, context.req.url);
+  context.log("body %s", context.req.body ? JSON.stringify(context.req.body).substr(0, 200) : "undefined");
+  context.log("query %s", JSON.stringify(context.req.query).substr(0, 200));
 };
 
-
-const makeLogger = (context) => ({
-  log(...xs) {
+const makeLogger = (context: Context) => ({
+  log(...xs: any[]): void {
     return context.log(...xs);
   },
-  warn(...xs) {
-    return context.log(...xs);
+  warn(...xs: any[]): void {
+    return context.log.warn(...xs);
   },
-  error(...xs) {
-    return context.log(...xs);
-  }
+  error(...xs: any[]): void {
+    return context.log.error(...xs);
+  },
 });
 
-/**
- * @param {*} context
- * @param {*} body
- * @param {number} [status]
- * @param {Record<string, string>} [headers]
- * @return {{headers: Record<string, string>, body: *, status: number}}
- */
-const succeed = (context, body, headers = { ...CACHE_HEADER, ...JSON_HEADER }, status = 200) => {
+const succeed = (context: Context, body: any, headers: Headers = { ...CACHE_HEADER, ...JSON_HEADER }, status: number = 200): Response => {
   return context.res = {
-    body: (headers['Content-Type'] || '').indexOf('/json') >= 0 || headers['Content-Type'] === undefined
+    body: (headers["Content-Type"] || "").indexOf("/json") >= 0 || headers["Content-Type"] === undefined
       ? JSON.stringify(body)
       : body,
     status,
@@ -67,14 +62,7 @@ const succeed = (context, body, headers = { ...CACHE_HEADER, ...JSON_HEADER }, s
   };
 };
 
-/**
- * @param {*} context
- * @param {*} msg
- * @param {number} [status]
- * @param {Record<string, string>} [headers]
- * @return {{headers: Record<string, string>, body: *, status: number}}
- */
-const fail = (context, msg, status = 400, headers = { ...TEXT_HEADER }) => {
+const fail = (context: Context, msg: string, status: number = 400, headers: Headers = { ...TEXT_HEADER }): Response => {
   return context.res = {
     status,
     headers,
@@ -82,37 +70,33 @@ const fail = (context, msg, status = 400, headers = { ...TEXT_HEADER }) => {
   };
 };
 
-/**
- * @param {*} context
- * @param {*} schema
- * @param {'body'|'query'} [what]
- * @returns {Promise<void>}
- */
-const validateJSON = async (context, schema, what = 'body') => {
+const validateJSON = (context: Context, schema: Record<string, any>, what: "body" | "query" = "body"): void => {
   if (context.req[what] === null || context.req[what] === undefined) {
     throw new APIError(`${what} is missing from the request`, HTTP_ERR.USER_ERR);
   }
   const validate = new Ajv({
-    messages: true,
-    verbose: true,
     allErrors: true,
-    unicode: false,
     logger: makeLogger(context),
+    messages: true,
+    unicode: false,
+    verbose: true,
   }).compile({
-    $schema: "http://json-schema.org/draft-07/schema#",
     $id: schema.$id || schema.description,
+    $schema: "http://json-schema.org/draft-07/schema#",
     description: schema.description || schema.$id,
-    ...schema
+    ...schema,
   });
   const valid = validate(context.req[what]);
   if (!valid) {
     context.log(validate);
     context.log(validate.errors[0].params);
-    throw new APIError(validate.errors.map(e => `${e.dataPath} ${e.message} ${e.params ? JSON.stringify(e.params) : ''}`).join(', '), HTTP_ERR.USER_ERR);
+    throw new APIError(validate.errors.map((e) => `${e.dataPath} ${e.message} ${e.params ? JSON.stringify(e.params) : ""}`).join(", "), HTTP_ERR.USER_ERR);
   }
 };
 
 export {
+  Headers,
+  Response,
   HTTP_ERR,
   TEXT_HEADER,
   JSON_HEADER,
