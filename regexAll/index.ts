@@ -7,6 +7,7 @@ import * as schema from "./schema";
 const findAll = (regex: RegExp, str: string): string[] => {
   const results = [];
   let match;
+  // tslint:disable-next-line:no-conditional-assignment
   while ((match = regex.exec(str)) !== null) {
     results.push(match[0]);
   }

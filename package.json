@@ -31,6 +31,7 @@
   "homepage": "https://github.com/nl253/NLPFuncApp",
   "readme": "https://github.com/nl253/NLPFuncApp/blob/master/README.md",
   "scripts": {
+    "lint": "tslint --project .",
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
