@@ -4118,7 +4118,13 @@
 				"id": "ddb5a2bc-1afb-48c7-9d28-fc2ee31aa932",
 				"type": "text/javascript",
 				"exec": [
-					""
+					"pm.test(\"Status code is OK\",  () => {",
+					"    pm.response.to.be.ok;",
+					"});",
+					"",
+					"pm.test(\"Response time is less than 10s\", () => {",
+					"    pm.expect(pm.response.responseTime).to.be.below(10000);",
+					"});"
 				]
 			}
 		}
