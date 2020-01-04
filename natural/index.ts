@@ -8,8 +8,18 @@ import {
 import * as schema from './schema';
 
 type Stemmer = 'PorterStemmer' | 'LancasterStemmer';
-type Tokenizer = 'RegexpTokenizer' | 'OrthographyTokenizer' | 'WordPunctTokenizer' | 'WordTokenizer' | 'TreebankWordTokenizer';
-type DistanceMetric = 'LevenshteinDistance' | 'DamerauLevenshteinDistance' | 'JaroWinklerDistance' | 'DiceCoefficient';
+type Tokenizer = 'RegexpTokenizer'
+               | 'AggressiveTokenizer'
+               | 'CaseTokenizer'
+               | 'OrthographyTokenizer'
+               | 'TreebankWordTokenizer'
+               | 'WordPunctTokenizer'
+               | 'WordTokenizer'
+               | 'SentenceTokenizer';
+type DistanceMetric = 'LevenshteinDistance'
+                    | 'DamerauLevenshteinDistance'
+                    | 'JaroWinklerDistance'
+                    | 'DiceCoefficient';
 type TokenizeOpts = Partial<{
   tokenizer: Tokenizer;
   regex: string;

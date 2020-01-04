@@ -18,6 +18,9 @@ export default {
       enum: [
         'OrthographyTokenizer',
         'RegexpTokenizer',
+        'CaseTokenizer',
+        'AggressiveTokenizer',
+        'SentenceTokenizer',
         'TreebankWordTokenizer',
         'WordPunctTokenizer',
         'WordTokenizer',
