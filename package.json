@@ -81,7 +81,7 @@
     "lint": "bash -c \"npm run lint:code && npm run lint:deps\"",
     "lint:code": "tslint --project .",
     "lint:deps": "bash -c \"npm run lint:deps:license && npm run lint:deps:security\"",
-    "lint:deps:security": "npx retire --js",
+    "lint:deps:security": "npx retire --node --package",
     "lint:deps:license": "npx license-checker --summary",
     "prestart": "npm run build && func extensions install",
     "loc": "bash -c \"tokei -- $(git ls-files | grep -v docs | grep -v bin)\""
