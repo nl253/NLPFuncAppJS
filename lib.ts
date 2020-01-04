@@ -22,7 +22,7 @@ const CACHE_HEADER = {
 
 const HTTP_ERR = {
   USER_ERR: 400,
-  NOT_FOUND_ERR: 404,
+  NOT_FOUND: 404,
 };
 
 class APIError extends Error {
