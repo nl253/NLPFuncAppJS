@@ -4122,8 +4122,8 @@
 					"    pm.response.to.be.ok;",
 					"});",
 					"",
-					"pm.test(\"Response time is less than 10s\", () => {",
-					"    pm.expect(pm.response.responseTime).to.be.below(10000);",
+					"pm.test(\"Response time is less than 12s\", () => {",
+					"    pm.expect(pm.response.responseTime).to.be.below(12000);",
 					"});"
 				]
 			}
