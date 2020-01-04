@@ -59,7 +59,6 @@
     "newman": "^4.5.7",
     "npm-run-all": "^4.1.5",
     "retire": "^2.0.3",
-    "swagger-ui": "^3.24.3",
     "tslint": "^5.20.1",
     "typedoc": "^0.15.6",
     "typescript": "^3.7.4"
@@ -74,17 +73,17 @@
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
-    "start": "npm-run-all --parallel start:host watch",
+    "prestart": "npm run build && func extensions install",
     "start:host": "func start",
-    "doc": "git-bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc . --toc --exclude node_modules --readme .\\README.md --name NLPFuncApp --mode file --out docs\"",
+    "start": "npm-run-all --parallel start:host watch",
+    "doc": "git-bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc --mode file --out docs --readme README.md --excludePrivate --name NLPFuncApp\"",
     "doc:open": "git-bash -c \"npm run doc && $BROWSER ./docs/index.html\"",
-    "doc:publish": "git-bash -c \"echo -e 'PUBLISHING DOCS\\n' && npm run doc && git add ./docs && git commit -am 'Update docs' -n && git push\"",
+    "doc:publish": "git-bash -c \"echo -e 'PUBLISHING DOCS\\n' && npm run doc && git add ./docs && git commit -m 'Update docs' -n && git push\"",
     "lint": "bash -c \"npm run lint:code && npm run lint:deps\"",
     "lint:code": "tslint --project .",
     "lint:deps": "bash -c \"npm run lint:deps:license && npm run lint:deps:security\"",
     "lint:deps:security": "npx retire --node --package",
     "lint:deps:license": "npx license-checker --summary",
-    "prestart": "npm run build && func extensions install",
     "loc": "bash -c \"tokei -- $(git ls-files | grep -v docs | grep -v bin)\""
   }
 }
