@@ -16,8 +16,8 @@ export default {
     },
     stemmer: {
       enum: [
-        'PorterStemmer',
         'LancasterStemmer',
+        'PorterStemmer',
       ],
     },
     metric: {
@@ -28,9 +28,18 @@ export default {
         'LevensteinDistance',
       ],
     },
+    flags: {
+      type: 'string',
+      minLength: 1,
+    },
+    regex: {
+      type: 'string',
+      minLength: 1,
+    },
     tokenizer: {
       enum: [
         'OrthographyTokenizer',
+        'RegexpTokenizer',
         'TreebankWordTokenizer',
         'WordPunctTokenizer',
         'WordTokenizer',
