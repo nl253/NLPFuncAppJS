@@ -76,7 +76,7 @@
     "watch": "tsc --w",
     "start": "npm-run-all --parallel start:host watch",
     "start:host": "func start",
-    "doc": "git-bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc . --exclude node_modules --readme .\\README.md --name NLPFuncApp --mode file --out docs\"",
+    "doc": "git-bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc . --toc --exclude node_modules --readme .\\README.md --name NLPFuncApp --mode file --out docs\"",
     "doc:open": "git-bash -c \"npm run doc && $BROWSER ./docs/index.html\"",
     "doc:publish": "git-bash -c \"echo -e 'PUBLISHING DOCS\\n' && npm run doc && git add ./docs && git commit -am 'Update docs' -n && git push\"",
     "lint": "bash -c \"npm run lint:code && npm run lint:deps\"",
