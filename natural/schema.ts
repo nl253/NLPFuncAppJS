@@ -6,12 +6,13 @@ export default {
   properties: {
     action: {
       enum: [
+        'soundalike',
+        'tag',
         'distance',
         'match',
         'sentiment',
         'stem',
         'tokenize',
-        'tokenizeAndStem',
       ],
     },
     tokenizer: {
@@ -24,6 +25,13 @@ export default {
         'TreebankWordTokenizer',
         'WordPunctTokenizer',
         'WordTokenizer',
+      ],
+    },
+    algorithm: {
+      enum: [
+        'SoundEx',
+        'Metaphone',
+        'DoubleMetaphone',
       ],
     },
     stemmer: {
