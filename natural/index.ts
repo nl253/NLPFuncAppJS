@@ -15,6 +15,9 @@ type TokenizeOpts = Partial<{
   regex: string;
   flags: string;
 }>;
+type SentimentOpts = Partial<{
+  vocabulary: 'afinn' | 'senticon' | 'pattern';
+}>;
 
 const tokenize = (txt: string, opts: TokenizeOpts = {}): string[] => {
   const {
@@ -65,13 +68,15 @@ const sentiment = (
   txt: string,
   stemmer: Stemmer = 'PorterStemmer',
   tokenizerOpts: TokenizeOpts = {},
+  sentimentOpts: SentimentOpts = {},
 ): number => {
   const { SentimentAnalyzer, ...api } = require('natural');
+  const { vocabulary = 'afinn' } = sentimentOpts;
   let analyzer;
   if (stemmer === 'LancasterStemmer') {
-    analyzer = new SentimentAnalyzer('English', api.LancasterStemmer, 'afinn');
+    analyzer = new SentimentAnalyzer('English', api.LancasterStemmer, vocabulary);
   } else if (stemmer === 'PorterStemmer') {
-    analyzer = new SentimentAnalyzer('English', api.PorterStemmer, 'afinn');
+    analyzer = new SentimentAnalyzer('English', api.PorterStemmer, vocabulary);
   } else {
     throw new Error(`unrecognised stemmer "${stemmer}"`);
   }
@@ -149,9 +154,10 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
           text,
           regex,
           flags,
+          vocabulary,
           tokenizer,
         } = req.body;
-        return succeed(context, sentiment(text, 'PorterStemmer', { flags, regex, tokenizer }));
+        return succeed(context, sentiment(text, 'PorterStemmer', { flags, regex, tokenizer }, { vocabulary }));
       }
       case 'tokenizeAndStem': {
         const {

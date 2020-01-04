@@ -14,8 +14,18 @@ export default {
         'tokenizeAndStem',
       ],
     },
+    tokenizer: {
+      enum: [
+        'OrthographyTokenizer',
+        'RegexpTokenizer',
+        'TreebankWordTokenizer',
+        'WordPunctTokenizer',
+        'WordTokenizer',
+      ],
+    },
     stemmer: {
       enum: [
+        null,
         'LancasterStemmer',
         'PorterStemmer',
       ],
@@ -28,6 +38,13 @@ export default {
         'LevensteinDistance',
       ],
     },
+    vocabulary: {
+      enum: [
+        'senticon',
+        'pattern',
+        'afinn',
+      ],
+    },
     flags: {
       type: 'string',
       minLength: 1,
@@ -35,15 +52,6 @@ export default {
     regex: {
       type: 'string',
       minLength: 1,
-    },
-    tokenizer: {
-      enum: [
-        'OrthographyTokenizer',
-        'RegexpTokenizer',
-        'TreebankWordTokenizer',
-        'WordPunctTokenizer',
-        'WordTokenizer',
-      ],
     },
     text1: {
       type: 'string',
