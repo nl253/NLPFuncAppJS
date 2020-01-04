@@ -1,13 +1,15 @@
-import {Context, HttpRequest} from "@azure/functions";
+import { Context, HttpRequest } from '@azure/functions';
 
-import {fail, logStart, Response, succeed, validateJSON} from "../lib";
+import {
+  fail, logStart, Response, succeed, validateJSON,
+} from '../lib';
 
-import * as schema from "./schema";
+import * as schema from './schema';
 
 const findAll = (regex: RegExp, str: string): string[] => {
   const results = [];
   let match;
-  // tslint:disable-next-line:no-conditional-assignment
+  // eslint-disable-next-line no-cond-assign
   while ((match = regex.exec(str)) !== null) {
     results.push(match[0]);
   }
@@ -19,8 +21,8 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
 
   try {
     await validateJSON(context, schema);
-    const flagSet = new Set(["g"].concat(Array.from(req.body.flags || "")));
-    const flags = Array.from(flagSet).join("");
+    const flagSet = new Set(['g'].concat(Array.from(req.body.flags || '')));
+    const flags = Array.from(flagSet).join('');
     const regExp = new RegExp(req.body.regex, flags);
     return succeed(context, findAll(regExp, req.body.text));
   } catch (e) {

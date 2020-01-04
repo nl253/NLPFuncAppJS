@@ -1,5 +1,8 @@
-import {lexer, parser, Renderer, setOptions} from "marked";
+import {
+  lexer, parser, Renderer, setOptions,
+} from 'marked';
 
+import { Context, HttpRequest } from '@azure/functions';
 import {
   CACHE_HEADER,
   fail,
@@ -7,16 +10,16 @@ import {
   logStart,
   succeed,
   validateJSON,
-} from "../lib";
+} from '../lib';
 
-import {Context, HttpRequest} from "@azure/functions";
-import * as schema from "./schema";
+import * as schema from './schema';
 
 setOptions({
   breaks: true,
   gfm: true,
   headerIds: false,
-  highlight: (code) => require("highlight.js").highlightAuto(code).value,
+  // eslint-disable-next-line global-require
+  highlight: (code) => require('highlight.js').highlightAuto(code).value,
   mangle: true,
   pedantic: false,
   renderer: new Renderer(),

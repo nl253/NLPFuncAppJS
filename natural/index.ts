@@ -1,85 +1,111 @@
-import {fail, logStart, Response, succeed, validateJSON} from "../lib";
+/* eslint-disable @typescript-eslint/no-var-requires,max-len,global-require,no-case-declarations */
+import { Context, HttpRequest } from '@azure/functions';
+import {
+  fail, logStart, Response, succeed, validateJSON,
+} from '../lib';
 
-import {Context, HttpRequest} from "@azure/functions";
-import * as schema from "./schema";
+import * as schema from './schema';
 
-type Stemmer = "PorterStemmer" | "LancasterStemmer";
-type Tokenizer = "OrthographyTokenizer" | "WordPunctTokenizer" | "WordTokenizer" | "TreebankWordTokenizer";
-type DistanceMetric = "LevenshteinDistance" | "DamerauLevenshteinDistance" | "JaroWinklerDistance" | "DiceCoefficient";
+type Stemmer = 'PorterStemmer' | 'LancasterStemmer';
+type Tokenizer = 'OrthographyTokenizer' | 'WordPunctTokenizer' | 'WordTokenizer' | 'TreebankWordTokenizer';
+type DistanceMetric = 'LevenshteinDistance' | 'DamerauLevenshteinDistance' | 'JaroWinklerDistance' | 'DiceCoefficient';
 
-const tokenize = (txt: string, tokenizer: Tokenizer = "WordTokenizer"): string[] => {
+const tokenize = (txt: string, tokenizer: Tokenizer = 'WordTokenizer'): string[] => {
   const {
     TreebankWordTokenizer,
     OrthographyTokenizer,
     WordPunctTokenizer,
     WordTokenizer,
-  } = require("natural");
+  } = require('natural');
   switch (tokenizer) {
-    case "OrthographyTokenizer":
+    case 'OrthographyTokenizer':
       return new OrthographyTokenizer().tokenize(txt);
-    case "WordTokenizer":
+    case 'WordTokenizer':
       return new WordTokenizer().tokenize(txt);
-    case "WordPunctTokenizer":
+    case 'WordPunctTokenizer':
       return new WordPunctTokenizer().tokenize(txt);
-    case "TreebankWordTokenizer":
+    case 'TreebankWordTokenizer':
       return new TreebankWordTokenizer().tokenize(txt);
+    default: {
+      throw new Error(`unrecognised tokenizer "${tokenizer}"`);
+    }
   }
 };
 
-const stem = (word: string, stemmer: Stemmer = "PorterStemmer"): string => {
+const stem = (word: string, stemmer: Stemmer = 'PorterStemmer'): string => {
   switch (stemmer) {
-    case "LancasterStemmer":
-      const {LancasterStemmer} = require("natural");
+    case 'LancasterStemmer': {
+      const { LancasterStemmer } = require('natural');
       return LancasterStemmer.stem(word);
-    case "PorterStemmer":
-      const {PorterStemmer} = require("natural");
+    }
+    case 'PorterStemmer': {
+      const { PorterStemmer } = require('natural');
       return PorterStemmer.stem(word);
+    }
+    default: {
+      throw new Error(`unrecognised stemmer "${stemmer}"`);
+    }
   }
 };
 
-const sentiment = (txt: string, tokenizer: Tokenizer = "WordTokenizer", stemmer: Stemmer = "PorterStemmer"): number => {
-  const {SentimentAnalyzer} = require("natural");
+const sentiment = (txt: string, tokenizer: Tokenizer = 'WordTokenizer', stemmer: Stemmer = 'PorterStemmer'): number => {
+  const { SentimentAnalyzer } = require('natural');
   switch (stemmer) {
-    case "LancasterStemmer":
-      const {LancasterStemmer} = require("natural");
-      return new SentimentAnalyzer("English", LancasterStemmer, "afinn").getSentiment(tokenize(txt, tokenizer));
-    case "PorterStemmer":
-      const {PorterStemmer} = require("natural");
-      return new SentimentAnalyzer("English", PorterStemmer, "afinn").getSentiment(tokenize(txt, tokenizer));
+    case 'LancasterStemmer': {
+      const { LancasterStemmer } = require('natural');
+      return new SentimentAnalyzer('English', LancasterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
+    }
+    case 'PorterStemmer': {
+      const { PorterStemmer } = require('natural');
+      return new SentimentAnalyzer('English', PorterStemmer, 'afinn').getSentiment(tokenize(txt, tokenizer));
+    }
+    default: {
+      throw new Error(`unrecognised stemmer "${stemmer}"`);
+    }
   }
 };
 
-const tokenizeAndStem = (txt: string, tokenizer: Tokenizer = "WordTokenizer", stemmer: Stemmer = "PorterStemmer"): string[] => {
+const tokenizeAndStem = (txt: string, tokenizer: Tokenizer = 'WordTokenizer', stemmer: Stemmer = 'PorterStemmer'): string[] => {
   switch (stemmer) {
-    case "PorterStemmer":
-      const {PorterStemmer} = require("natural");
+    case 'PorterStemmer':
+      const { PorterStemmer } = require('natural');
       return tokenize(txt, tokenizer).map((w) => PorterStemmer.stem(w));
-    case "LancasterStemmer":
-      const {LancasterStemmer} = require("natural");
+    case 'LancasterStemmer':
+      const { LancasterStemmer } = require('natural');
       return tokenize(txt, tokenizer).map((w) => LancasterStemmer.stem(w));
+    default: {
+      throw new Error(`unrecognised stemmer "${stemmer}"`);
+    }
   }
 };
 
-const distance = (s1: string, s2: string, metric: DistanceMetric = "LevenshteinDistance"): number => {
+const distance = (s1: string, s2: string, metric: DistanceMetric = 'LevenshteinDistance'): number => {
   switch (metric) {
-    case "LevenshteinDistance":
-      const {LevenshteinDistance} = require("natural");
+    case 'LevenshteinDistance': {
+      const { LevenshteinDistance } = require('natural');
       return LevenshteinDistance(s1, s2);
-    case "DamerauLevenshteinDistance":
-      const {DamerauLevenshteinDistance} = require("natural");
+    }
+    case 'DamerauLevenshteinDistance': {
+      const { DamerauLevenshteinDistance } = require('natural');
       return DamerauLevenshteinDistance(s1, s2);
-    case "JaroWinklerDistance":
-      const {JaroWinklerDistance} = require("natural");
+    }
+    case 'JaroWinklerDistance': {
+      const { JaroWinklerDistance } = require('natural');
       return JaroWinklerDistance(s1, s2);
-    case "DiceCoefficient":
-      const {DiceCoefficient} = require("natural");
+    }
+    case 'DiceCoefficient': {
+      const { DiceCoefficient } = require('natural');
       return DiceCoefficient(s1, s2);
+    }
+    default: {
+      throw new Error(`unrecognised metric "${metric}"`);
+    }
   }
 };
 
-const match = (s1: string, s2: string): { substring: string, distance: number } => {
-  const {LevenshteinDistance} = require("natural");
-  return LevenshteinDistance(s1, s2, {search: true});
+const match = (s1: string, s2: string): { substring: string; distance: number } => {
+  const { LevenshteinDistance } = require('natural');
+  return LevenshteinDistance(s1, s2, { search: true });
 };
 
 export default async (context: Context, req: HttpRequest): Promise<Response> => {
@@ -89,23 +115,26 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
     await validateJSON(context, schema);
 
     switch (req.body.action) {
-      case "tokenize": {
+      case 'tokenize': {
         return succeed(context, tokenize(req.body.text, req.body.tokenizer));
       }
-      case "stem": {
+      case 'stem': {
         return succeed(context, stem(req.body.text, req.body.stemmer));
       }
-      case "match": {
+      case 'match': {
         return succeed(context, match(req.body.text1, req.body.text2));
       }
-      case "distance": {
+      case 'distance': {
         return succeed(context, distance(req.body.text1, req.body.text2, req.body.metric));
       }
-      case "sentiment": {
+      case 'sentiment': {
         return succeed(context, sentiment(req.body.text, req.body.tokenizer));
       }
-      case "tokenizeAndStem": {
+      case 'tokenizeAndStem': {
         return succeed(context, tokenizeAndStem(req.body.text, req.body.tokenizer, req.body.stemmer));
+      }
+      default: {
+        throw new Error(`unrecognised action "${req.body.action}"`);
       }
     }
   } catch (e) {

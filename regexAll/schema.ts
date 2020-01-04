@@ -1,18 +1,18 @@
 export default {
-  $id: "regexAll",
-  required: ["text", "regex"],
-  type: "object",
+  $id: 'regexAll',
+  required: ['text', 'regex'],
+  type: 'object',
   properties: {
     text: {
-      type: "string",
+      type: 'string',
       minLength: 1,
     },
     regex: {
-      type: "string",
+      type: 'string',
       minLength: 1,
     },
     flags: {
-      type: "string",
+      type: 'string',
       minLength: 1,
     },
   },

@@ -1,16 +1,16 @@
 export default {
-  $id: "counts",
-  type: "object",
-  required: ["text", "regex"],
+  $id: 'counts',
+  type: 'object',
+  required: ['text', 'regex'],
   properties: {
     flags: {
-      type: "string",
+      type: 'string',
     },
     text: {
-      type: "string",
+      type: 'string',
     },
     regex: {
-      type: "string",
+      type: 'string',
     },
   },
 };
