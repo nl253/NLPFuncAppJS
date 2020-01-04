@@ -1,54 +1,47 @@
 {
   "name": "nlp-func-app",
-  "private": true,
-  "author": {
-    "email": "norbertlogiewa96@gmail.com",
-    "name": "Norbert Logiewa",
-    "url": "https://github.com/nl253"
+  "version": "1.0.0",
+  "description": "NLP Function App",
+  "readme": "https://github.com/nl253/NLPFuncApp/blob/master/README.md",
+  "homepage": "https://github.com/nl253/NLPFuncApp",
+  "keywords": [
+    "function-app",
+    "func-app",
+    "azure",
+    "microservice",
+    "microservices",
+    "api",
+    "serverless",
+    "nlp",
+    "http"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nl253/NLPFuncApp"
   },
   "bugs": {
     "email": "norbertlogiewa96@gmail.com",
     "url": "https://github.com/nl253/NLPFuncApp/issues"
   },
-  "version": "1.0.0",
+  "author": "Norbert Logiewa <norbertlogiewa96@gmail.com>",
+  "maintainers": [
+    {
+      "email": "norbertlogiewa96@gmail.com",
+      "name": "Norbert Logiewa"
+    }
+  ],
+  "contributors": [
+    {
+      "email": "norbertlogiewa96@gmail.com",
+      "name": "Norber Logiewa",
+      "url": "https://github.com/nl253"
+    }
+  ],
   "engines": {
     "node": ">=10.0.0"
   },
   "engineStrict": true,
-  "browserslist": [],
-  "contributors": [
-    {
-      "email": "norbertlogiewa96@gmail.com",
-      "name": "Norbert Logiewa",
-      "url": "https://github.com/nl253"
-    }
-  ],
-  "directories": {},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nl253/NLPFuncApp"
-  },
-  "homepage": "https://github.com/nl253/NLPFuncApp",
-  "readme": "https://github.com/nl253/NLPFuncApp/blob/master/README.md",
-  "scripts": {
-    "lint": "tslint --project .",
-    "build": "tsc",
-    "build:production": "npm run prestart && npm prune --production",
-    "watch": "tsc --w",
-    "prestart": "npm run build && func extensions install",
-    "start:host": "func start",
-    "start": "npm-run-all --parallel start:host watch",
-    "test": "echo \"No tests yet...\""
-  },
-  "description": "",
-  "devDependencies": {
-    "tslint": "^5.20.1",
-    "@azure/functions": "^1.0.3",
-    "@types/node": "^13.1.0",
-    "newman": "^4.5.7",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^3.3.3"
-  },
   "dependencies": {
     "highlight.js": "^9.17.1",
     "marked": "^0.8.0",
@@ -56,5 +49,41 @@
     "compromise": "^11.14.2",
     "html-to-text": "^5.1.1",
     "natural": "^0.6.3"
+  },
+  "devDependencies": {
+    "@types/license-checker": "^25.0.0",
+    "@types/node": "^13.1.4",
+    "tslint": "^5.20.1",
+    "typedoc": "^0.15.6",
+    "@azure/functions": "^1.0.3",
+    "jsonlint": "^1.6.3",
+    "license-checker": "^25.0.1",
+    "retire": "^2.0.3",
+    "newman": "^4.5.7",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.7.4"
+  },
+  "browserslist": [],
+  "directories": {
+    "doc": "./docs",
+    "lib": "./"
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "build:production": "npm run prestart && npm prune --production",
+    "watch": "tsc --w",
+    "start": "npm-run-all --parallel start:host watch",
+    "start:host": "func start",
+    "doc": "bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc --readme ./README.md --out ./docs\"",
+    "doc:open": "bash -c \"npm run doc && $BROWSER ./docs/index.html\"",
+    "doc:publish": "bash -c \"echo -e 'PUBLISHING DOCS\\n' && npm run doc && git add ./docs && git commit -am 'Update docs' -n && git push\"",
+    "lint": "bash -c \"npm run lint:code && npm run lint:deps\"",
+    "lint:code": "tslint --project .",
+    "lint:deps": "bash -c \"npm run lint:deps:license && npm run lint:deps:security\"",
+    "lint:deps:security": "npx retire --js",
+    "lint:deps:license": "npx license-checker --summary",
+    "prestart": "npm run build && func extensions install",
+    "loc": "bash -c \"tokei -- $(git ls-files | grep -v docs | grep -v bin)\""
   }
 }
