@@ -105,7 +105,7 @@
     "doc": "git-bash -c \"echo -e 'GENERATING DOCS\\n' && rm -rf ./docs && npx typedoc --mode file --out docs --readme README.md --excludePrivate --name NLPFuncApp\"",
     "doc:open": "git-bash -c \"npm run doc && $BROWSER ./docs/index.html\"",
     "doc:publish": "git-bash -c \"echo -e 'PUBLISHING DOCS\\n' && npm run doc && git add ./docs && git commit -m 'Update docs' -n && git push\"",
-    "lint": "git-bash -c \"npm run lint:code && npm run lint:doc && npm run lint:deps\"",
+    "lint": "bash -c \"npm run lint:code && npm run lint:doc && npm run lint:deps\"",
     "lint:code": "npx eslint ./**/*.ts",
     "lint:doc": "bash -c \"npm run lint:doc:markdown-lint && npm run lint:doc:write-good && npm run lint:doc:remark\"",
     "lint:doc:write-good": "bash -c \"npx write-good --so --weasel --tooWordy --cliches --thereIs *.md || echo ''\"",
