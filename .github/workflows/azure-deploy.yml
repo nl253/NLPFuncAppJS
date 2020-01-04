@@ -29,9 +29,6 @@ jobs:
     - name: Lint Dependencies
       shell: bash
       run: npm run lint:deps
-    - name: Lint Docs
-      shell: bash
-      run: npm run lint:doc
     - name: Publish
       uses: Azure/functions-action@v1
       id: fa
