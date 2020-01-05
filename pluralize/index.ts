@@ -21,7 +21,7 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
 
   try {
     await validateJSON(context, schema);
-    return succeed(context, pluralize(req.body.tokens));
+    return succeed(context, pluralize(req.body));
   } catch (e) {
     return fail(context, e.message, e.code);
   }

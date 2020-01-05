@@ -9,6 +9,16 @@
   "variable": [
     {
       "type": "string",
+      "key": "n",
+      "id": "n",
+      "value": "3",
+      "description": {
+        "type": "string",
+        "content": "N"
+      }
+    },
+    {
+      "type": "string",
       "key": "vocabulary",
       "id": "vocabulary",
       "value": "afinn",
@@ -235,6 +245,105 @@
       }
     },
     {
+      "name": "Match",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text1\": \"{{$randomWords}}\", \"text2\": \"{{$randomWords}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/match",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "match"
+          ]
+        },
+        "description": "Match"
+      }
+    },
+    {
+      "name": "Sound-a-like",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text1\": \"{{$randomWord}}\", \"text2\": \"{{$randomWord}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/soundalike",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "soundalike"
+          ]
+        },
+        "description": "Sound-a-like"
+      }
+    },
+    {
+      "name": "Distance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text1\": \"{{$randomWords}}\", \"text2\": \"{{$randomWords}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/distance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "distance"
+          ]
+        },
+        "description": "Distance"
+      }
+    },
+    {
       "name": "Regex",
       "request": {
         "method": "POST",
@@ -268,6 +377,35 @@
       }
     },
     {
+      "name": "Prepositions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/prepositions",
+          "host": ["{{baseUrl}}"],
+          "path": ["prepositions"]
+        },
+        "description": "Prepositions"
+      }
+    },
+    {
       "name": "Verbs",
       "request": {
         "method": "POST",
@@ -298,6 +436,72 @@
           ]
         },
         "description": "Verbs"
+      }
+    },
+    {
+      "name": "At Mentions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/atMentions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "atMentions"
+          ]
+        },
+        "description": "At Mentions"
+      }
+    },
+    {
+      "name": "Hyphenated",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/hyphenated",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "hyphenated"
+          ]
+        },
+        "description": "Hyphenated"
       }
     },
     {
@@ -364,6 +568,171 @@
           ]
         },
         "description": "Places"
+      }
+    },
+    {
+      "name": "Quotations",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/quotations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "quotations"
+          ]
+        },
+        "description": "Quotations"
+      }
+    },
+    {
+      "name": "Pronouns",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pronouns",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pronouns"
+          ]
+        },
+        "description": "Pronouns"
+      }
+    },
+    {
+      "name": "Possessives",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/possessives",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "possessives"
+          ]
+        },
+        "description": "Possessives"
+      }
+    },
+    {
+      "name": "Parenthesis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/parenthesis",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "parenthesis"
+          ]
+        },
+        "description": "Parenthesis"
+      }
+    },
+    {
+      "name": "Terms",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/terms",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "terms"
+          ]
+        },
+        "description": "Terms"
       }
     },
     {
@@ -562,6 +931,39 @@
           ]
         },
         "description": "Contractions"
+      }
+    },
+    {
+      "name": "Abbreviations",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{text}}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/abbreviations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "abbreviations"
+          ]
+        },
+        "description": "Abbreviations"
       }
     },
     {
@@ -793,6 +1195,122 @@
           ]
         },
         "description": "Sentiment"
+      }
+    },
+    {
+      "name": "Pluralize",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{tokens}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pluralize",
+          "host": ["{{baseUrl}}"],
+          "path": ["singularize"]
+        },
+        "description": "Pluralize"
+      }
+    },
+    {
+      "name": "Singularize",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{tokens}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/singularize",
+          "host": ["{{baseUrl}}"],
+          "path": ["singularize"]
+        },
+        "description": "Singularize"
+      }
+    },
+    {
+      "name": "Tag",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"tokens\": {{tokens}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tag",
+          "host": ["{{baseUrl}}"],
+          "path": ["tag"]
+        },
+        "description": "Tag"
+      }
+    },
+    {
+      "name": "N-Grams",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "name": "Content-Type",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"tokens\": {{tokens}}, \"n\": {{n}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/ngrams",
+          "host": ["{{baseUrl}}"],
+          "path": ["ngrams"]
+        },
+        "description": "N-Grams"
       }
     },
     {
