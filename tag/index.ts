@@ -18,7 +18,7 @@ type TagOpts = Partial<{
 }>;
 
 
-const tag = (tokens: string[], tagOpts: TagOpts = {}): string[] => {
+const posTag = (tokens: string[], tagOpts: TagOpts = {}): string[] => {
   const { BrillPOSTagger, Lexicon, RuleSet } = require('natural');
   const {
     language = 'EN',
@@ -43,7 +43,7 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
       defaultCategoryCapitalized,
     } = req.body;
     const tagOpts = { defaultCategory, defaultCategoryCapitalized, language };
-    return succeed(context, tag(tokens, tagOpts));
+    return succeed(context, posTag(tokens, tagOpts));
   } catch (e) {
     return fail(context, e.message, e.code);
   }
