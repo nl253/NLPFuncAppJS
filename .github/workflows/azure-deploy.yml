@@ -29,8 +29,8 @@ jobs:
     - name: Lint Dependencies
       shell: bash
       run: npm run lint:deps
-#    - name: Integration Test
-#      run: 'npx newman run postman_collection.json --global-var "apiKey=${{ secrets.ApiKey }}" --global-var "baseUrl=${{ secrets.ApiUrl }}"'
+    - name: Integration Test
+      run: 'npx newman run postman_collection.json --global-var "apiKey=${{ secrets.ApiKey }}" --global-var "baseUrl=${{ secrets.ApiUrl }}"'
     - name: Publish
       uses: Azure/functions-action@v1
       id: fa
