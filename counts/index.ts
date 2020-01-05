@@ -28,7 +28,7 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
   try {
     await validateJSON(context, schema);
     const flags = Array.from(new Set(Array.from(`${req.body.flags || ''}g`))).join('');
-    const regexFallback = /\w+/g;
+    const regexFallback = /\w+([-@]\w+)*('\w+)?/g;
     const regex = req.body.regex ? (new RegExp(req.body.regex, flags)) : regexFallback;
     const counts = getCounts(req.body.text, regex);
     return succeed(context, counts);

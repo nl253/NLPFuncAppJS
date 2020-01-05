@@ -1,6 +1,9 @@
 import { Context, HttpRequest } from '@azure/functions';
 import {
-  fail, logStart, succeed, validateJSON,
+  fail,
+  logStart,
+  succeed,
+  validateJSON,
 } from '../lib';
 
 import * as schema from './schema';

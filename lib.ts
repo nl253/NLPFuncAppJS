@@ -3,6 +3,7 @@ import * as Ajv from 'ajv';
 
 type Headers = Record<string, string>;
 type Response = any;
+type Logger = { warn(...xs: any[]): void; log(...xs: any[]): void; error(...xs: any[]): void };
 
 const JSON_HEADER = {
   'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ const logStart = (context: Context): void => {
   context.log('query %s', JSON.stringify(context.req.query).substr(0, 200));
 };
 
-const makeLogger = (context: Context) => ({
+const makeLogger: (context: Context) => Logger = (context: Context) => ({
   log(...xs: any[]): void {
     return context.log(...xs);
   },

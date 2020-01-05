@@ -15,23 +15,28 @@
       "type": "apiKey",
       "name": "Authorization",
       "in": "header"
-    },
-    "apiKeyQuery": {
-      "type": "apiKey",
-      "name": "api-key",
-      "in": "query"
     }
   },
-  "security": [
-    {
-      "apiKeyHeader": [
-      ]
-    },
-    {
-      "apiKeyQuery": []
-    }
-  ],
+  "security": [{"apiKeyHeader": []}, {"apiKeyQuery": []}],
   "responses": {
+    "Int": {
+      "description": "",
+      "examples": {
+        "application/json": 123
+      },
+      "schema": {
+        "$ref": "#/definitions/Int"
+      }
+    },
+    "Float": {
+      "description": "",
+      "examples": {
+        "application/json": 0.123
+      },
+      "schema": {
+        "$ref": "#/definitions/Float"
+      }
+    },
     "Number": {
       "description": "",
       "examples": {
@@ -49,23 +54,17 @@
       "headers": {
         "Content-Type": {
           "type": "string",
-          "enum": ["application/json"]
+          "enum": [
+            "application/json"
+          ]
         }
       },
       "examples": {
-        "application/json": ["Tom", "Amy", "John"]
-      }
-    },
-    "Natural": {
-      "headers": {
-        "Content-Type": {
-          "type": "string",
-          "enum": ["application/json"]
-        }
-      },
-      "description": "",
-      "examples": {
-        "application/json": ["Tom", "was", "in", "a", "hurry"]
+        "application/json": [
+          "Tom",
+          "Amy",
+          "John"
+        ]
       }
     },
     "Html": {
@@ -75,7 +74,9 @@
       "headers": {
         "Content-Type": {
           "type": "string",
-          "enum": ["text/html"]
+          "enum": [
+            "text/html"
+          ]
         }
       },
       "description": "",
@@ -90,7 +91,9 @@
       "headers": {
         "Content-Type": {
           "type": "string",
-          "enum": ["text/plain"]
+          "enum": [
+            "text/plain"
+          ]
         }
       },
       "description": "",
@@ -109,7 +112,9 @@
       "headers": {
         "Content-Type": {
           "type": "string",
-          "enum": ["application/json"]
+          "enum": [
+            "application/json"
+          ]
         }
       },
       "schema": {
@@ -121,11 +126,17 @@
       "headers": {
         "Content-Type": {
           "type": "string",
-          "enum": ["application/json"]
+          "enum": [
+            "application/json"
+          ]
         }
       },
       "examples": {
-        "application/json": ["mary", "tom", "susan"]
+        "application/json": [
+          "mary",
+          "tom",
+          "susan"
+        ]
       },
       "schema": {
         "$ref": "#/definitions/Regex Response Body"
@@ -141,7 +152,9 @@
       },
       "headers": {
         "Content-Type": {
-          "enum": ["text/plain"],
+          "enum": [
+            "text/plain"
+          ],
           "type": "string"
         }
       }
@@ -351,47 +364,6 @@
           }
         },
         "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/natural": {
-      "post": {
-        "description": "Natural",
-        "operationId": "post-natural",
-        "summary": "Natural",
-        "tags": [
-          "nlp",
-          "natural"
-        ],
-        "parameters": [
-          {
-            "name": "natural Request Body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Natural Request Body"
-            }
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/Natural"
-          },
-          "400": {
-            "$ref": "#/responses/Error"
-          },
-          "502": {
-            "$ref": "#/responses/Error"
-          },
-          "503": {
-            "$ref": "#/responses/Error"
-          }
-        },
-        "produces": [
-          "0",
           "application/json"
         ]
       }
@@ -1082,6 +1054,56 @@
         ]
       }
     },
+    "/ngrams": {
+      "post": {
+        "description": "Ngrams",
+        "operationId": "ngrams",
+        "summary": "Ngrams",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "n": {
+                  "$ref": "#/definitions/Int"
+                },
+                "text": {
+                  "$ref": "#/definitions/Text"
+                },
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Array Of Strings"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
     "/tokenize": {
       "post": {
         "description": "Tokenize",
@@ -1093,18 +1115,37 @@
         ],
         "parameters": [
           {
-            "name": "text",
+            "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Text"
+              "required": ["text"],
+              "properties": {
+                "flags": {
+                  "type": "string"
+                },
+                "regex": {
+                  "type": "string"
+                },
+                "tokenizer": {
+                  "enum": [
+                    "OrthographyTokenizer",
+                    "RegexpTokenizer",
+                    "CaseTokenizer",
+                    "AggressiveTokenizer",
+                    "SentenceTokenizer",
+                    "TreebankWordTokenizer",
+                    "WordPunctTokenizer",
+                    "WordTokenizer"
+                  ]
+                },
+                "text": {
+                  "$ref": "#/definitions/Text"
+                }
+              }
             }
           }
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown",
-          "text/*"
-        ],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
             "$ref": "#/responses/Array Of Strings"
@@ -1134,27 +1175,36 @@
           "nlp",
           "natural"
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown",
-          "text/*"
-        ],
+        "consumes": ["application/json"],
         "produces": [
           "application/json",
           "text/plain"
         ],
         "parameters": [
           {
-            "name": "text",
+            "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Text"
+              "type": "object",
+              "required": ["tokens"],
+              "properties": {
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                },
+                "vocabulary": {
+                  "enum": [
+                    "afinn",
+                    "senticon",
+                    "pattern"
+                  ]
+                }
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/Number"
+            "$ref": "#/responses/Float"
           },
           "400": {
             "$ref": "#/responses/Error"
@@ -1168,32 +1218,297 @@
         }
       }
     },
-    "/tokenizeAndStem": {
+    "/soundalike": {
       "post": {
-        "description": "Tokenize and Stem",
-        "operationId": "tokenizeAndStem",
-        "summary": "Tokenize and Stem",
+        "description": "Soundalike",
+        "operationId": "soundalike",
+        "summary": "Soundalike",
         "tags": [
           "nlp",
           "natural"
         ],
         "parameters": [
           {
-            "name": "text",
+            "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Text"
+              "type": "object",
+              "required": [
+                "text1",
+                "text2"
+              ],
+              "properties": {
+                "algorithm": {
+                  "enum": [
+                    "SoundEx",
+                    "Metaphone",
+                    "DoubleMetaphone"
+                  ]
+                },
+                "text1": {
+                  "$ref": "#/definitions/Text"
+                },
+                "text2": {
+                  "$ref": "#/definitions/Text"
+                }
+              }
             }
           }
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown",
-          "text/*"
-        ],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
-            "$ref": "#/responses/Text"
+            "$ref": "#/responses/Array Of Strings"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/pluralize": {
+      "post": {
+        "description": "Pluralize",
+        "operationId": "pluralize",
+        "summary": "Pluralize",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["tokens"],
+              "properties": {
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Array Of Strings"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/singularize": {
+      "post": {
+        "description": "Singularize",
+        "operationId": "singularize",
+        "summary": "Singularize",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["tokens"],
+              "properties": {
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Array Of Strings"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/distance": {
+      "post": {
+        "description": "Distance",
+        "operationId": "distance",
+        "summary": "Distance",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["text1", "text2"],
+              "properties": {
+                "metric": {
+                  "enum": [
+                    "DamerauLevenshteinDistance",
+                    "DiceCoefficient",
+                    "JaroWinklerDistance",
+                    "LevensteinDistance"
+                  ]
+                },
+                "text1": {
+                  "$ref": "#/definitions/Text"
+                },
+                "text2": {
+                  "$ref": "#/definitions/Text"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Float"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/match": {
+      "post": {
+        "description": "Match",
+        "operationId": "match",
+        "summary": "Match",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["text1", "text2"],
+              "properties": {
+                "text1": {
+                  "$ref": "#/definitions/Text"
+                },
+                "text2": {
+                  "$ref": "#/definitions/Text"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "substring": {
+                  "type": "string"
+                },
+                "distance": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "502": {
+            "$ref": "#/responses/Error"
+          },
+          "503": {
+            "$ref": "#/responses/Error"
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/plain"
+        ]
+      }
+    },
+    "/tag": {
+      "post": {
+        "description": "Tag",
+        "operationId": "tag",
+        "summary": "Tag",
+        "tags": [
+          "nlp",
+          "natural"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["tokens"],
+              "properties": {
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Array Of Strings"
           },
           "400": {
             "$ref": "#/responses/Error"
@@ -1222,21 +1537,32 @@
         ],
         "parameters": [
           {
-            "name": "text",
+            "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Text"
+              "type": "object",
+              "required": [
+                "tokens"
+              ],
+              "properties": {
+                "stemmer": {
+                  "enum": [
+                    null,
+                    "LancasterStemmer",
+                    "PorterStemmer"
+                  ]
+                },
+                "tokens": {
+                  "$ref": "#/definitions/Array Of Strings"
+                }
+              }
             }
           }
         ],
-        "consumes": [
-          "text/plain",
-          "text/markdown",
-          "text/*"
-        ],
+        "consumes": ["application/json"],
         "responses": {
           "200": {
-            "$ref": "#/responses/Text"
+            "$ref": "#/responses/Array Of Strings"
           },
           "400": {
             "$ref": "#/responses/Error"
@@ -1269,6 +1595,14 @@
     },
     "Number": {
       "type": "number"
+    },
+    "Float": {
+      "type": "number",
+      "format": "float"
+    },
+    "Int": {
+      "type": "number",
+      "format": "int64"
     },
     "Compromise Request Body": {
       "required": [
@@ -1383,62 +1717,6 @@
       },
       "additionalProperties": true,
       "properties": {}
-    },
-    "Natural Request Body": {
-      "type": "object",
-      "required": [
-        "action"
-      ],
-      "example": {
-        "text": "Annie was in a great mood that day.",
-        "action": "tokenize"
-      },
-      "properties": {
-        "action": {
-          "enum": [
-            "distance",
-            "match",
-            "sentiment",
-            "stem",
-            "tokenize",
-            "tokenizeAndStem"
-          ]
-        },
-        "stemmer": {
-          "enum": [
-            "PorterStemmer",
-            "LancasterStemmer"
-          ]
-        },
-        "metric": {
-          "enum": [
-            "DamerauLevenshteinDistance",
-            "DiceCoefficient",
-            "JaroWinklerDistance",
-            "LevensteinDistance"
-          ]
-        },
-        "tokenizer": {
-          "enum": [
-            "OrthographyTokenizer",
-            "TreebankWordTokenizer",
-            "WordPunctTokenizer",
-            "WordTokenizer"
-          ]
-        },
-        "text": {
-          "type": "string",
-          "minLength": 1
-        },
-        "text1": {
-          "type": "string",
-          "minLength": 1
-        },
-        "text2": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
     }
   },
   "tags": [

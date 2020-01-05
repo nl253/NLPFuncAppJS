@@ -5,7 +5,6 @@ export default {
   properties: {
     text: {
       type: 'string',
-      minLength: 1,
     },
     regex: {
       type: 'string',
@@ -13,7 +12,6 @@ export default {
     },
     flags: {
       type: 'string',
-      minLength: 1,
     },
   },
 };
