@@ -17,7 +17,9 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
 
   try {
     await validateJSON(context, schema);
-    return succeed(context, nlp(req.body).acronyms().out('array'));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    return succeed(context, (nlp as (text: string) => any)(req.body).acronyms().out('array'));
   } catch (e) {
     return fail(context, e.message, e.code);
   }
