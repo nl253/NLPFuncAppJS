@@ -1,5 +1,5 @@
 {
-  "scriptFile": "./../dist/compromise/index.js",
+  "scriptFile": "./../dist/people/index.js",
   "disabled": false,
   "bindings": [
     {

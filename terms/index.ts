@@ -17,7 +17,7 @@ export default async (context: Context, req: HttpRequest): Promise<Response> => 
 
   try {
     await validateJSON(context, schema);
-    return succeed(context, nlp(req.body.text)[req.body.type]().out('array'));
+    return succeed(context, nlp(req.body).terms().out('array'));
   } catch (e) {
     return fail(context, e.message, e.code);
   }
